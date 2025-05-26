@@ -35,33 +35,51 @@ export class PlayAgainButton extends Component {
       });
   
       state.resetButton = this;
-      this.hide();
+      this.unhide();
     }
   
     restart() {
+      console.log("Restarting game");
       state.restart();
       this.hide();
     }
   
     hide() {
-      this.object.children[0].getComponent("mesh").active = false;
-      this.object.children[1].getComponent("text").active = false;
+      console.log("Hiding button");
+      if (this.object.children[0]) {
+        const mesh = this.object.children[0].getComponent("mesh");
+        if (mesh) mesh.active = false;
+      }
+      if (this.object.children[1]) {
+        const text = this.object.children[1].getComponent("text");
+        if (text) text.active = false;
+      }
       this.active = false;
     }
   
     unhide() {
-      this.object.children[0].getComponent("mesh").active = true;
-      this.object.children[1].getComponent("text").active = true;
+      console.log("Unhiding button");
+      if (this.object.children[0]) {
+        const mesh = this.object.children[0].getComponent("mesh");
+        if (mesh) mesh.active = true;
+      }
+      if (this.object.children[1]) {
+        const text = this.object.children[1].getComponent("text");
+        if (text) text.active = true;
+      }
       this.active = true;
     }
   
     update(dt) {
+      if (!this.active) return;
+      
       let overlaps = this.collision.queryOverlaps();
       for (let i = 0; i < overlaps.length; ++i) {
         let p = overlaps[i].object.getComponent("bullet-physics");
         if (p) {
           this.restart();
           this.soundPop.play();
+          break;
         }
       }
     }

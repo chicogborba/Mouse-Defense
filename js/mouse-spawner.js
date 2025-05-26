@@ -27,10 +27,10 @@ export class MouseSpawner extends Component {
         targetMesh: { type: Type.Mesh },
         targetMaterial: { type: Type.Material },
         spawnAnimation: { type: Type.Animation },
-        maxTargets: { type: Type.Int, default: 20 },
         particles: { type: Type.Object },
-        spawnIntervalCeiling: { type: Type.Float, default: 3.0 },
-        spawnIntervalFloor: { type: Type.Float, default: 1.0 },
+        initialSpawnInterval: { type: Type.Float, default: 2.0 },
+        minSpawnInterval: { type: Type.Float, default: 0.5 },
+        spawnIntervalDecreaseRate: { type: Type.Float, default: 0.95 },
         bulletMesh: { type: Type.Mesh },
         bulletMaterial: { type: Type.Material },
     };
@@ -42,8 +42,9 @@ export class MouseSpawner extends Component {
     }
 
     time = 0;
-    spawnInterval = 3;
+    spawnInterval = 2.0;
     targets = [];
+    waveNumber = 1;
 
     init() {
         state.despawnTarget = function (obj) {
@@ -59,28 +60,27 @@ export class MouseSpawner extends Component {
 
     start() {
         state.mouseSpawner = this;
-        // state.mouseSound = this.object.addComponent(HowlerAudioSource, {
-        //     src: "sfx/critter-40645.mp3",
-        //     loop: true,
-        //     volume: 1.0,
-        // });
-
-        state.maxTargets = this.maxTargets;
-        state.updateScore(`Eliminate all ${state.maxTargets} rats.`);
-        this.spawnInterval = this.spawnIntervalCeiling;
+        this.spawnInterval = this.initialSpawnInterval;
         this.spawnTarget();
     }
 
     update(dt) {
+        if (state.gameOver || state.paused) return;
+        
         this.time += dt;
-        if (state.targetsSpawned >= this.maxTargets) return;
-
         if (this.time >= this.spawnInterval) {
             this.time = 0;
             this.spawnTarget();
-            //gradually increases spawn interval until it hits the floor
-            if (this.spawnInterval > this.spawnIntervalFloor) {
-                this.spawnInterval *= .8;
+            
+            // Decrease spawn interval until it hits the minimum
+            if (this.spawnInterval > this.minSpawnInterval) {
+                this.spawnInterval *= this.spawnIntervalDecreaseRate;
+            }
+            
+            // Increase wave number every 10 zombies
+            if (this.targets.length % 10 === 0) {
+                this.waveNumber++;
+                state.updateScore(`Wave ${this.waveNumber} - Zombies: ${this.targets.length}`);
             }
         }
     }
@@ -90,6 +90,9 @@ export class MouseSpawner extends Component {
             this.targets[i].destroy();
         }
         this.targets = [];
+        this.waveNumber = 1;
+        this.spawnInterval = this.initialSpawnInterval;
+        this.time = 0;
         this.object.resetPosition();
     }
 
@@ -120,20 +123,17 @@ export class MouseSpawner extends Component {
         const trigger = this.engine.scene.addObject(obj);
         trigger.addComponent("collision", {
             collider: WL.Collider.Sphere,
-            extents: [1.5, 1.5, 1.5], // Increased collision extents to match new scale
+            extents: [1.5, 1.5, 1.5],
             group: 1 << 0,
             active: true,
         });
 
-        trigger.translateLocal([0, 1, 0]); // Adjusted height for new scale
+        trigger.translateLocal([0, 1, 0]);
         trigger.addComponent(ScoreTrigger, {
             particles: this.particles
         });
 
         obj.setDirty();
-
-        state.targetsSpawned++;
         this.targets.push(obj);
-        // state.mouseSound.play();
     }
 };

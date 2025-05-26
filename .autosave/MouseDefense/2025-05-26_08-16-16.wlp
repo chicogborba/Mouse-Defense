@@ -626,9 +626,15 @@
                     "type": "joystick-movement",
                     "joystick-movement": {
                         "headObject": "14",
-                        "blowForce": 20.0,
+                        "blowForce": 5.0,
                         "cursorObject": "126",
-                        "friction": 0.0099999
+                        "friction": 0.5,
+                        "turnAngle": 60.0,
+                        "gravity": 10.0,
+                        "moveSpeed": 2.0,
+                        "horizontalForceMultiplier": 20.0,
+                        "maxBlowDuration": 1.0,
+                        "turnSpeedMultiplier": 5.0
                     }
                 }
             ],

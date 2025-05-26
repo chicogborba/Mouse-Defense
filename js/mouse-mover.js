@@ -20,7 +20,7 @@ import { state } from "./game";
 export class MouseMover extends Component {
     static TypeName = "mouse-mover";
     static Properties = {
-        speed: { type: Type.Float, default: 1.5 },
+        baseSpeed: { type: Type.Float, default: 1.5 }
     };
 
     init() {
@@ -31,18 +31,19 @@ export class MouseMover extends Component {
         if (isNaN(dt)) return;
         if(state.gameOver || state.paused) return; // skip if game is over or paused
 
+        // Get current speed from wave system
+        const currentSpeed = state.getWaveSpeed();
+
         // get current and player positions
         const currentPos = vec3.create();
         this.object.getPositionLocal(currentPos);
         const playerPos = state.getPlayerLocation();
 
-
-
-        // Se a current position is close enough to the player position, set state.gameOver to true
-        if (vec3.dist(currentPos, playerPos) < 0.1 && !this.gameOver) {
-            console.log("Mouse reached player, game over");
+        // Check if zombie is close enough to player to trigger game over
+        if (vec3.dist(currentPos, playerPos) < 0.5) {
+            console.log("Zombie reached player, game over");
             state.loseGame();
-            return; // stop moving if close enough
+            return;
         }
 
         // compute direction vector in XZ plane
@@ -54,8 +55,8 @@ export class MouseMover extends Component {
         if (vec3.len(dir) < 0.01) return; // already at player
         vec3.normalize(dir, dir);
 
-        // move towards player
-        const moveVec = vec3.scale(vec3.create(), dir, this.speed * dt);
+        // move towards player with wave-adjusted speed
+        const moveVec = vec3.scale(vec3.create(), dir, currentSpeed * dt);
         // update position
         vec3.add(currentPos, currentPos, moveVec);
         this.object.setPositionLocal(currentPos);
