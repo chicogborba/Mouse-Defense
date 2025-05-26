@@ -59,11 +59,11 @@ export class MouseSpawner extends Component {
 
     start() {
         state.mouseSpawner = this;
-        state.mouseSound = this.object.addComponent(HowlerAudioSource, {
-            src: "sfx/critter-40645.mp3",
-            loop: true,
-            volume: 1.0,
-        });
+        // state.mouseSound = this.object.addComponent(HowlerAudioSource, {
+        //     src: "sfx/critter-40645.mp3",
+        //     loop: true,
+        //     volume: 1.0,
+        // });
 
         state.maxTargets = this.maxTargets;
         state.updateScore(`Eliminate all ${state.maxTargets} rats.`);
@@ -97,12 +97,16 @@ export class MouseSpawner extends Component {
         const obj = this.engine.scene.addObject();
         obj.setTransformLocal(this.object.getTransformWorld(tempQuat2));
 
-        obj.scaleLocal([0.1, 0.1, 0.1]);
+        // Adjust scale to be more reasonable for collision detection
+        obj.scaleLocal([1, 1, 1]);
         const mesh = obj.addComponent('mesh');
         mesh.mesh = this.targetMesh;
         mesh.material = this.targetMaterial;
         mesh.active = true;
         obj.addComponent(MouseMover);
+
+        // Rotate the model to be right side up
+        obj.rotateAxisAngleDegLocal([1, 0, 0], 180);
 
         if (this.spawnAnimation) {
             const anim = obj.addComponent("animation");
@@ -116,12 +120,12 @@ export class MouseSpawner extends Component {
         const trigger = this.engine.scene.addObject(obj);
         trigger.addComponent("collision", {
             collider: WL.Collider.Sphere,
-            extents: [0.6, 0, 0],
+            extents: [1.5, 1.5, 1.5], // Increased collision extents to match new scale
             group: 1 << 0,
             active: true,
         });
 
-        trigger.translateLocal([0, 0.7, 0]);
+        trigger.translateLocal([0, 1, 0]); // Adjusted height for new scale
         trigger.addComponent(ScoreTrigger, {
             particles: this.particles
         });
@@ -130,6 +134,6 @@ export class MouseSpawner extends Component {
 
         state.targetsSpawned++;
         this.targets.push(obj);
-        state.mouseSound.play();
+        // state.mouseSound.play();
     }
 };

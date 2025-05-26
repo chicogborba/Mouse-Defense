@@ -28,10 +28,12 @@ export const state = {
         let scoreString = "";
         if (this.maxTargets != this.score) {
           scoreString = `${this.score} rats down, ${(this.maxTargets - this.score)} left`;
-        } else {
+        } 
+        
+        else {
           scoreString = "Congrats, you got all the rats!";
           this.victoryMusic.play();
-          this.bgMusic.stop();
+          // this.bgMusic.stop();
           this.mouseSound.stop();
           this.resetButton.unhide();
           this.gameOver = true;
@@ -40,12 +42,24 @@ export const state = {
         this.updateScore(scoreString);
     },
 
+
+    loseGame() {
+      this.gameOver = true;
+      // this.bgMusic.stop();
+      this.mouseSound.stop();
+      this.resetButton.unhide();
+      this.updateScore("You lost! Game Over!");
+      this.mouseSpawner.targets = [];
+
+      console.log( "state", this );
+    },
+
     restart() {
         this.mouseSpawner.targets = [];
         this.mouseSpawner.reset();
 
         this.victoryMusic.stop();
-        this.bgMusic.play();
+        // this.bgMusic.play();
         this.gameOver = false;
         this.shotCount = 0;
         this.score = 0;
