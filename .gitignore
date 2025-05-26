@@ -1,6 +1,5 @@
 # Wonderland
 cache/
-deploy/
 node_modules/
 ssl/
 .editor/

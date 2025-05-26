@@ -27,9 +27,9 @@ export const state = {
     zombiesKilledInWave: 0,
     waveProperties: {
         baseZombies: 10,        // Starting number of zombies in wave 1
-        zombiesIncrease: 5,     // How many more zombies per wave
-        baseSpeed: 1.5,         // Starting speed in wave 1
-        speedIncreasePercent: 20 // Speed increase percentage per wave (increased to 20%)
+        zombiesIncrease: 10,     // How many more zombies per wave
+        baseSpeed: 2.5,         // Starting speed in wave 1 (increased from 1.5)
+        speedIncreasePercent: 50 // Speed increase percentage per wave (increased to 50%)
     },
 
     getCurrentWave() {
@@ -43,19 +43,25 @@ export const state = {
 
     getWaveSpeed() {
         const speedMultiplier = 1 + ((this.currentWave - 1) * this.waveProperties.speedIncreasePercent / 100);
-        return this.waveProperties.baseSpeed * speedMultiplier;
+        const speed = this.waveProperties.baseSpeed * speedMultiplier;
+        console.log(`Wave ${this.currentWave} speed: ${speed.toFixed(2)} (multiplier: ${speedMultiplier.toFixed(2)})`);
+        return speed;
     },
 
     getRemainingZombies() {
-        return this.getWaveZombieCount() - this.zombiesKilledInWave;
+        const total = this.getWaveZombieCount();
+        const killed = this.zombiesKilledInWave;
+        console.log(`Wave ${this.currentWave}: ${killed}/${total} zombies killed`);
+        return total - killed;
     },
 
     updateWaveDisplay() {
         const remaining = this.getRemainingZombies();
         const nextWaveZombies = this.waveProperties.baseZombies + 
                                (this.currentWave) * this.waveProperties.zombiesIncrease;
+        const speed = this.getWaveSpeed();
         this.updateScore(
-            `Wave ${this.currentWave} - Remaining: ${remaining} zombies - Next Wave: ${nextWaveZombies} zombies`
+            `Wave ${this.currentWave} - Remaining: ${remaining} zombies - Speed: ${speed.toFixed(1)} - Next Wave: ${nextWaveZombies} zombies`
         );
     },
 
@@ -64,7 +70,9 @@ export const state = {
         this.score++;
 
         // Check if wave is complete
-        if (this.zombiesKilledInWave >= this.getWaveZombieCount()) {
+        const remaining = this.getRemainingZombies();
+        if (remaining <= 0) {
+            console.log(`Wave ${this.currentWave} complete! Starting next wave...`);
             this.nextWave();
         } else {
             this.updateWaveDisplay();
@@ -76,14 +84,15 @@ export const state = {
         this.zombiesKilledInWave = 0;
         
         // Update max targets for the new wave
+        const newZombieCount = this.getWaveZombieCount();
         if (this.mouseSpawner) {
-            this.mouseSpawner.maxTargets = this.getWaveZombieCount();
+            console.log(`Setting new wave ${this.currentWave} with ${newZombieCount} zombies`);
+            this.mouseSpawner.maxTargets = newZombieCount;
+            this.mouseSpawner.reset(); // Clear existing zombies and start new wave
         }
 
         // Update display with new wave info
         this.updateWaveDisplay();
-        
-        console.log(`Starting Wave ${this.currentWave} - Speed multiplier: ${1 + ((this.currentWave - 1) * this.waveProperties.speedIncreasePercent / 100)}`);
     },
 
     loseGame() {
@@ -130,7 +139,9 @@ export const state = {
 
         // Reset max targets for wave 1
         if (this.mouseSpawner) {
-            this.mouseSpawner.maxTargets = this.getWaveZombieCount();
+            const initialZombies = this.getWaveZombieCount();
+            console.log(`Restarting game with ${initialZombies} zombies in wave 1`);
+            this.mouseSpawner.maxTargets = initialZombies;
         }
 
         this.updateCounter();
