@@ -633,9 +633,8 @@
                         "gravity": 20.0,
                         "moveSpeed": 2.0,
                         "horizontalForceMultiplier": 10.0,
-                        "maxBlowDuration": 0.5,
-                        "turnSpeedMultiplier": 5.0,
-                        "maxAirJumps": 2
+                        "maxBlowDuration": 1.0,
+                        "turnSpeedMultiplier": 5.0
                     }
                 }
             ],

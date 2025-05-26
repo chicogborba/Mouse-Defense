@@ -23,7 +23,6 @@ import {VrModeActiveSwitch} from '@wonderlandengine/components';
 import {BgMusic} from './bg-music.js';
 import {BulletSpawner} from './bullet-spawner.js';
 import {ConfettiParticles} from './confetti-particles.js';
-import {GameLogo} from './game-logo.js';
 import {HudControl} from './hud-control.js';
 import {JoystickMovement} from './joystick-movement.js';
 import {MouseLookCustom} from './mouse-look-custom.js';
@@ -41,17 +40,22 @@ import { loadRuntime } from "@wonderlandengine/api";
 import * as API from "@wonderlandengine/api"; // Deprecated: Backward compatibility.
 
 /* wle:auto-constants:start */
-const RuntimeOptions = {
-    physx: false,
-    loader: false,
-    xrFramebufferScaleFactor: 1,
-    canvas: 'canvas',
-};
 const Constants = {
     ProjectName: 'MyWonderland',
     RuntimeBaseName: 'WonderlandRuntime',
     WebXRRequiredFeatures: ['local',],
     WebXROptionalFeatures: ['local','local-floor','hand-tracking','hit-test',],
+};
+const RuntimeOptions = {
+    physx: false,
+    loader: false,
+    xrFramebufferScaleFactor: 1,
+    xrOfferSession: {
+        mode: 'auto',
+        features: Constants.WebXRRequiredFeatures,
+        optionalFeatures: Constants.WebXROptionalFeatures,
+    },
+    canvas: 'canvas',
 };
 /* wle:auto-constants:end */
 
@@ -108,7 +112,6 @@ engine.registerComponent(VrModeActiveSwitch);
 engine.registerComponent(BgMusic);
 engine.registerComponent(BulletSpawner);
 engine.registerComponent(ConfettiParticles);
-engine.registerComponent(GameLogo);
 engine.registerComponent(HudControl);
 engine.registerComponent(JoystickMovement);
 engine.registerComponent(MouseLookCustom);

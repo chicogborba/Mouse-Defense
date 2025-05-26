@@ -15,165 +15,62 @@ import { vec3 } from "gl-matrix";
 import { state } from "./game";
 
 /**
-@brief Moves and rotates the mice in random directions at set intervals.
+@brief Moves the mouse directly towards the player each frame.
 */
-
-
 export class MouseMover extends Component {
-
     static TypeName = "mouse-mover";
-    static Properties = {
-        speed: { type: Type.Float, default: 1.0 },
-    };
-
-    time = 0;
-    currentPos = [0, 0, 0];
-    pointA = [0, 0, 0];
-    pointB = [0, 0, 0];
-    moveDuration = 2;
-
-    savedAngle = 0;
-    previousAngle = 0;
-    newAngle = 0
+    static Properties = {};
 
     init() {
-        this.object.getPositionLocal(this.currentPos);
-
-        this.rotateMoveRatio = 2;
-        this.moveDuration = (Math.random() * 0.7) + 1.3;
-        this.time = this.moveDuration / this.rotateMoveRatio;
-        this.speed = 1.5;
-        this.travelDistance = this.moveDuration * this.speed;
-
-        vec3.add(this.pointA, this.pointA, this.currentPos);
-        vec3.add(this.pointB, this.currentPos, [0, 0, 1.5]);
-
-        this.speedLevel1 = true;
-        this.speedLevel2 = true;
-        this.speedLevel3 = true;
-
-
-        this.minDistanceFromPlayer = 7;
-
-        state.updateMoveDuration = function (firstShot = false) {
-            let targetsLeft = state.score / state.maxTargets;
-            if (firstShot) {
-                this.moveDuration *= 0.3;
-                this.rotateMoveRatio++;
-            } else if (targetsLeft > 0.2 && this.speedLevel1) {
-                this.moveDuration *= 0.5;
-                this.rotateMoveRatio++;
-                this.speedLevel1 = false;
-            } else if (targetsLeft > 0.5 && this.speedLevel2) {
-                this.moveDuration *= 0.7;
-                this.rotateMoveRatio++;
-                this.speedLevel2 = false;
-            } else if (targetsLeft > 0.8 && this.speedLevel3) {
-                this.moveDuration *= 0.7;
-                this.rotateMoveRatio++;
-                this.speedLevel3 = false;
-            }
-        }.bind(this);
+        // nothing needed here for direct follow
     }
+
     update(dt) {
         if (isNaN(dt)) return;
+        if(state.gameOver || state.paused) return; // skip if game is over or paused
 
-        // increment time on movement cycle
-        this.time += dt;
+        // Get current speed from wave system
+        const currentSpeed = state.getWaveSpeed();
 
-        // get new angle and move location only when movement cycle is complete
-        if (this.time >= this.moveDuration) {
-            this.time = 0;
+        // get current and player positions
+        const currentPos = vec3.create();
+        this.object.getPositionLocal(currentPos);
+        const playerPos = state.getPlayerLocation();
 
-            this.pointA = this.currentPos;
-
-            // new position will always be the hypotenuse of x and z triangle
-            let x = Math.random() * this.travelDistance;
-            let z = Math.abs(Math.sqrt(Math.pow(this.travelDistance, 2) - Math.pow(x, 2)));
-
-            let playerLocation = [0, 0, 0]
-            playerLocation = state.getPlayerLocation();
-
-            let xNegBoundary = this.pointA[0] < -8;
-            let xPosBoundary = this.pointA[0] > 13;
-            let yNegBoundary = this.pointA[2] < -8;
-            let yPosBoundary = this.pointA[2] > 12;
-
-            // keep mice within farm fence
-            if (xNegBoundary || xPosBoundary || yNegBoundary || yPosBoundary) {
-                if (xPosBoundary) {
-                    x *= -1;
-                }
-                if (yPosBoundary) {
-                    z *= -1;
-                }
-                // move away from player if too close
-            } else if (this.isPlayerClose()) {
-                if (this.pointA[0] < playerLocation[0]) {
-                    x *= -1;
-                }
-                if (this.pointA[2] < playerLocation[2]) {
-                    z *= -1;
-                }
-                // otherwise move in random direction
-            } else {
-                const randomNegative1 = Math.round(Math.random()) * 2 - 1;
-                const randomNegative2 = Math.round(Math.random()) * 2 - 1;
-                x *= randomNegative1
-                z *= randomNegative2;
-            }
-
-            vec3.add(this.pointB, this.pointA, [x, 0, z]);
-
-            this.newAngle = Math.floor(Math.random() * 180);
-            this.previousAngle = this.savedAngle;
+        // Check if zombie is close enough to player to trigger game over
+        if (vec3.dist(currentPos, playerPos) < 0.5) {
+            console.log("Zombie reached player, game over");
+            state.loseGame();
+            return;
         }
 
-        this.object.resetPosition();
-        let rotateTime = this.moveDuration / this.rotateMoveRatio;
-        let moveTime = this.time - this.moveDuration / this.rotateMoveRatio;
-        // rotation phase
-        if (this.time < rotateTime) {
-            this.object.resetRotation();
-            this.savedAngle = (this.time * this.newAngle) + this.previousAngle;
-            this.object.rotateAxisAngleDegLocal([0, 0, 1], this.savedAngle);
-            this.object.rotateAxisAngleDegLocal([1, 0, 0], 90);
-        }
-        // linear interpolation between old and new position
-        else {
-            vec3.lerp(this.currentPos, this.pointA, this.pointB, moveTime);
-        }
-        // movement phase
-        this.object.translateLocal(this.currentPos);
+        // compute direction vector in XZ plane
+        const dir = vec3.fromValues(
+            playerPos[0] - currentPos[0],
+            0,
+            playerPos[2] - currentPos[2]
+        );
+        if (vec3.len(dir) < 0.01) return; // already at player
+        vec3.normalize(dir, dir);
+
+        // move towards player with wave-adjusted speed
+        const moveVec = vec3.scale(vec3.create(), dir, currentSpeed * dt);
+        // update position
+        vec3.add(currentPos, currentPos, moveVec);
+        this.object.setPositionLocal(currentPos);
+        // ensure Y position is at floor height
+        currentPos[1] = state.floorHeight;
+        this.object.setPositionLocal(currentPos);
+        // update the object position again to ensure Y is set
+        this.object.setPositionLocal(currentPos);
+        // update the collider position
+        this.object.getComponent("collision").setPositionLocal(currentPos);
+        // ensure the collider is at the correct height
+        this.object.getComponent("collision").setHeight(state.floorHeight);
+
+        // rotate to face the player (Y-axis rotation)
+        const angleDeg = Math.atan2(dir[0], dir[2]) * (180 / Math.PI);
+        this.object.resetRotation();
+        this.object.rotateAxisAngleDegLocal([0, 1, 0], angleDeg);
     }
-    // check if player is too close
-    isPlayerClose() {
-        let distanceFromPlayer = vec3.dist(this.pointA, state.getPlayerLocation());
-        if (distanceFromPlayer < this.minDistanceFromPlayer) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    // Check if player is too close and run away. Puts update() into "runAwayNow" mode.
-    runFromPlayer(playerLocation) {
-        if (this.isPlayerClose()) {
-
-            this.pointA = this.currentPos;
-
-            let x = Math.random() * this.travelDistance;
-            let z = Math.abs(Math.sqrt(Math.pow(this.travelDistance, 2) - Math.pow(x, 2)));
-
-            if (this.pointA[0] < playerLocation[0]) {
-                x *= -1;
-            }
-            if (this.pointA[2] < playerLocation[2]) {
-                z *= -1;
-            }
-
-            vec3.add(this.pointB, this.pointA, [x, 0, z]);
-            // increment time to bypass rotate phase
-            this.time = this.moveDuration / this.rotateMoveRatio;
-        }
-    }
-};
+}

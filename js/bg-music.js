@@ -20,35 +20,35 @@ export class BgMusic extends Component {
     static Properties = {};
 
     init() {
-        state.bgMusic = this.object.addComponent('howler-audio-source', {
-            src: 'music/happy-funny-kids-111912.mp3',
-            loop: true,
-            volume: 0.4
-        });
-        state.bgMusic.play();
-        this.bgDucks = this.object.addComponent('howler-audio-source', {
-            src: 'sfx/ducks-short.mp3',
-            loop: true,
-            volume: 1.3
-        });
-        this.bgDucks.play();
-        this.bgCow = this.object.addComponent('howler-audio-source', {
-            src: 'sfx/cows-short.mp3',
-            loop: true,
-            volume: 1.0
-        });
-        this.bgCow.play();
-        this.bgSheep = this.object.addComponent('howler-audio-source', {
-            src: 'sfx/sheep-short.mp3',
-            loop: true,
-            volume: 1.0
-        });
-        this.bgSheep.play();
-        this.bgPig = this.object.addComponent('howler-audio-source', {
-            src: 'sfx/pig_grunts_snorts_breathing_hackney_city_farm-73959.mp3',
-            loop: true,
-            volume: 1.0
-        });
-        this.bgPig.play();
+        // state.bgMusic = this.object.addComponent('howler-audio-source', {
+        //     src: 'music/happy-funny-kids-111912.mp3',
+        //     loop: true,
+        //     volume: 0.4
+        // });
+        // state.bgMusic.play();
+        // this.bgDucks = this.object.addComponent('howler-audio-source', {
+        //     src: 'sfx/ducks-short.mp3',
+        //     loop: true,
+        //     volume: 1.3
+        // });
+        // this.bgDucks.play();
+        // this.bgCow = this.object.addComponent('howler-audio-source', {
+        //     src: 'sfx/cows-short.mp3',
+        //     loop: true,
+        //     volume: 1.0
+        // });
+        // this.bgCow.play();
+        // this.bgSheep = this.object.addComponent('howler-audio-source', {
+        //     src: 'sfx/sheep-short.mp3',
+        //     loop: true,
+        //     volume: 1.0
+        // });
+        // this.bgSheep.play();
+        // this.bgPig = this.object.addComponent('howler-audio-source', {
+        //     src: 'sfx/pig_grunts_snorts_breathing_hackney_city_farm-73959.mp3',
+        //     loop: true,
+        //     volume: 1.0
+        // });
+        // this.bgPig.play();
     }
 };

@@ -41,14 +41,14 @@ export class PlayerLocation extends Component {
         let locationDistance = vec3.dist(currentLocation, this.playerLocation);
         if (locationDistance != 0) {
             this.playerLocation = currentLocation;
-            try {
-                for (let i = 0; i < state.mouseSpawner.targets.length; i++) {
-                    let mouseMoverComponent = state.mouseSpawner.targets[i].getComponent(MouseMover);
-                    mouseMoverComponent.runFromPlayer(currentLocation);;
-                }
-            } catch (e) {
-                console.log("player-location >> get mouse >> ", e);
-            }
+            // try {
+            //     for (let i = 0; i < state.mouseSpawner.targets.length; i++) {
+            //         let mouseMoverComponent = state.mouseSpawner.targets[i].getComponent(MouseMover);
+            //         // mouseMoverComponent.runFromPlayer(currentLocation);;
+            //     }
+            // } catch (e) {
+            //     console.log("player-location >> get mouse >> ", e);
+            // }
         }
     }
 };
