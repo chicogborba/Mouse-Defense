@@ -19,9 +19,7 @@ import { state } from "./game";
 */
 export class MouseMover extends Component {
     static TypeName = "mouse-mover";
-    static Properties = {
-        baseSpeed: { type: Type.Float, default: 1.5 }
-    };
+    static Properties = {};
 
     init() {
         // nothing needed here for direct follow
