@@ -124,6 +124,66 @@
     <div id="Pontos" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 30px; font-weight: bold;">
       +
     </div>
+
+    <div id="startup-backdrop" style="
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.8);
+    pointer-events: all;
+    z-index: 10000;
+    opacity: 1;
+    transition: opacity 0.5s ease;
+  ">
+    <div style="
+      position: absolute;
+      top: 30%;
+      left: 50%;
+      transform: translate(-50%, -30%);
+      color: #ffcc00;
+      font-size: 72px;
+      font-weight: bold;
+      text-align: center;
+      text-shadow: 2px 2px 12px black;
+    ">
+      ZombieFly
+    </div>
+    <div style="
+      position: absolute;
+      top: 45%;
+      left: 50%;
+      transform: translate(-50%, -45%);
+      color: white;
+      font-size: 24px;
+      text-align: center;
+      width: 80%;
+      max-width: 400px;
+      line-height: 1.4;
+    ">
+      Use <strong>W/A/S/D</strong> para andar<br>
+      Pressione <strong>Espaço</strong> para dar boost e voar no ar
+    </div>
+    <button id="start-button" style="
+      position: absolute;
+      top: 60%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      padding: 15px 30px;
+      font-size: 24px;
+      font-weight: bold;
+      color: white;
+      background-color: #28a745;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+    ">
+      INICIAR
+    </button>
+  </div>
+
     <div id="game-over-backdrop" style="
     position: absolute;
     top: 0;
@@ -160,5 +220,18 @@
       </a>
       
     </div>
+
+    <script>
+      // Mostrar tela de startup até clicar em "INICIAR"
+      document.getElementById('start-button').addEventListener('click', () => {
+        const startup = document.getElementById('startup-backdrop');
+        startup.style.opacity = '0';
+        startup.style.pointerEvents = 'none';
+      });
+  
+      // Exemplo de como ocultar Game Over
+      // document.getElementById('game-over-backdrop').style.opacity = '1';
+      // document.getElementById('game-over-backdrop').style.pointerEvents = 'all';
+    </script>
   </body>
 </html>
