@@ -52,6 +52,9 @@ export class BulletPhysics extends Component {
             return;
         }
 
+        // Se já marcou ponto, não faz mais nada
+        if (this.scored) return;
+
         //update position
         this.object.getPositionWorld(this.position);
         //deactivate bullet if through the floor
@@ -75,17 +78,30 @@ export class BulletPhysics extends Component {
             let t = overlaps[i].object.getComponent("score-trigger");
             if (t && !this.scored) {
                 t.onHit();
+                this.scored = true;
+                state.zombiesKilledInWave++;
                 this.destroyBullet(0);
-                return;
+                break;
             }
         }
     }
     destroyBullet(time) {
-        if (time == 0) {
-            this.object.destroy();
+        // 1) desativa render e colisão na hora
+        const meshComp = this.object.getComponent("mesh", 0);
+        if (meshComp) meshComp.active = false;
+        if (this.collision) this.collision.active = false;
+    
+        // 2) opcional: desativa o próprio objeto pra sair da árvore imediatamente
+        this.object.active = false;
+    
+        // 3) destrói de fato (ou remove da cena)
+        if (time === 0) {
+            // remove imediatamente
+            this.engine.scene.removeObject(this.object);
+            // ou: this.object.destroy();
         } else {
             setTimeout(() => {
-                this.object.destroy()
+                this.engine.scene.removeObject(this.object);
             }, time);
         }
     }

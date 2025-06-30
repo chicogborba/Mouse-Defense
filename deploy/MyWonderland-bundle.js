@@ -12704,6 +12704,8 @@ var BulletPhysics = class extends Component3 {
       console.log("dt is NaN");
       return;
     }
+    if (this.scored)
+      return;
     this.object.getPositionWorld(this.position);
     if (this.position[1] <= state.floorHeight + this.collision.extents[0]) {
       this.destroyBullet(0);
@@ -12722,17 +12724,25 @@ var BulletPhysics = class extends Component3 {
       let t = overlaps[i].object.getComponent("score-trigger");
       if (t && !this.scored) {
         t.onHit();
+        this.scored = true;
+        state.zombiesKilledInWave++;
         this.destroyBullet(0);
-        return;
+        break;
       }
     }
   }
   destroyBullet(time) {
-    if (time == 0) {
-      this.object.destroy();
+    const meshComp = this.object.getComponent("mesh", 0);
+    if (meshComp)
+      meshComp.active = false;
+    if (this.collision)
+      this.collision.active = false;
+    this.object.active = false;
+    if (time === 0) {
+      this.engine.scene.removeObject(this.object);
     } else {
       setTimeout(() => {
-        this.object.destroy();
+        this.engine.scene.removeObject(this.object);
       }, time);
     }
   }
@@ -13366,7 +13376,6 @@ var MouseSpawner = class extends Component3 {
   static onRegister(engine2) {
     engine2.registerComponent(ScoreTrigger);
     engine2.registerComponent(HowlerAudioSource);
-    engine2.registerComponent(MouseMover);
   }
   time = 0;
   spawnInterval = 2;
@@ -13417,6 +13426,11 @@ var MouseSpawner = class extends Component3 {
   spawnTarget() {
     const obj = this.engine.scene.addObject();
     obj.setTransformLocal(this.object.getTransformWorld(tempQuat24));
+    const angle2 = Math.random() * 2 * Math.PI;
+    const dist2 = Math.random() * 5;
+    const dx = Math.cos(angle2) * dist2;
+    const dz = Math.sin(angle2) * dist2;
+    obj.translateLocal([dx, 0, dz]);
     obj.scaleLocal([1, 1, 1]);
     const mesh = obj.addComponent("mesh");
     mesh.mesh = this.targetMesh;
@@ -13581,40 +13595,13 @@ var SpawnMover = class extends Component3 {
     this.pointA = [0, 0, 0];
     this.pointB = [0, 0, 0];
     this.moveDuration = 1;
-    this.speed = 3;
+    this.speed = 0.2;
     this.travelDistance = this.moveDuration * this.speed;
     quat2_exports.getTranslation(this.currentPos, this.object.transformLocal);
     vec3_exports.add(this.pointA, this.pointA, this.currentPos);
     vec3_exports.add(this.pointB, this.currentPos, [0, 0, 1.5]);
   }
   update(dt) {
-    if (isNaN(dt))
-      return;
-    this.time += dt;
-    if (this.time >= this.moveDuration) {
-      this.time -= this.moveDuration;
-      this.pointA = this.currentPos;
-      let x = Math.random() * this.travelDistance;
-      let z = Math.sqrt(Math.pow(this.travelDistance, 2) - Math.pow(x, 2));
-      let distanceFromOrigin = vec3_exports.length(this.pointA);
-      if (distanceFromOrigin > 20) {
-        if (this.pointA[0] >= 14) {
-          x *= -1;
-        }
-        if (this.pointA[2] >= 14) {
-          z *= -1;
-        }
-      } else {
-        const randomNegative1 = Math.round(Math.random()) * 2 - 1;
-        const randomNegative2 = Math.round(Math.random()) * 2 - 1;
-        x *= randomNegative1;
-        z *= randomNegative2;
-      }
-      vec3_exports.add(this.pointB, this.pointA, [x, 0, z]);
-    }
-    this.object.resetPosition();
-    vec3_exports.lerp(this.currentPos, this.pointA, this.pointB, this.time);
-    this.object.translateLocal(this.currentPos);
   }
 };
 __publicField(SpawnMover, "TypeName", "spawn-mover");
@@ -13796,67 +13783,74 @@ var WasdControlsCustom = class extends Component3 {
     this.right = false;
     this.down = false;
     this.left = false;
+    this.centerPos = vec3_exports.create();
+    if (this.headObject) {
+      this.headObject.getPositionLocal(this.centerPos);
+    }
     window.addEventListener("keydown", this.press.bind(this));
     window.addEventListener("keyup", this.release.bind(this));
   }
   update() {
+    if (!this.headObject)
+      return;
     if (this.up || this.right || this.down || this.left) {
-      let direction2 = [0, 0, 0];
-      let forwardVec = [];
-      this.object.getForward(forwardVec);
-      forwardVec[1] = 0;
-      let backVec = [0, 0, 0];
-      if (forwardVec[2] == 1) {
-        forwardVec[2] = this.speed;
-        backVec = [0, 0, -this.speed];
-      } else if (forwardVec[2] == -1) {
-        forwardVec[2] = -this.speed;
-        backVec = [0, 0, this.speed];
+      const direction2 = vec3_exports.create();
+      const forward = vec3_exports.fromValues(0, 0, 0);
+      this.object.getForward(forward);
+      forward[1] = 0;
+      const back = vec3_exports.create();
+      if (vec3_exports.equals(forward, [0, 0, 1])) {
+        vec3_exports.set(forward, 0, 0, this.speed);
+        vec3_exports.set(back, 0, 0, -this.speed);
+      } else if (vec3_exports.equals(forward, [0, 0, -1])) {
+        vec3_exports.set(forward, 0, 0, -this.speed);
+        vec3_exports.set(back, 0, 0, this.speed);
       } else {
-        let angle2 = vec3_exports.angle([0, 0, -1], forwardVec);
-        let xPolarity = -1;
-        let zPolarity = -1;
-        if (forwardVec[0] > 0)
-          xPolarity = 1;
-        if (forwardVec[2] > 0)
-          zPolarity = 1;
-        forwardVec[0] = xPolarity * Math.abs(Math.sin(angle2)) * this.speed;
-        backVec[0] = -forwardVec[0];
-        forwardVec[2] = zPolarity * Math.abs(Math.cos(angle2)) * this.speed;
-        backVec[2] = -forwardVec[2];
+        const angleF = vec3_exports.angle([0, 0, -1], forward);
+        const xPolF = forward[0] > 0 ? 1 : -1;
+        const zPolF = forward[2] > 0 ? 1 : -1;
+        forward[0] = xPolF * Math.abs(Math.sin(angleF)) * this.speed;
+        forward[2] = zPolF * Math.abs(Math.cos(angleF)) * this.speed;
+        back[0] = -forward[0];
+        back[2] = -forward[2];
       }
-      let rightVec = [];
-      this.object.getRight(rightVec);
-      rightVec[1] = 0;
-      let leftVec = [0, 0, 0];
-      if (rightVec[0] == 1) {
-        rightVec[0] = this.speed;
-        leftVec = [-this.speed, 0, 0];
-      } else if (rightVec[0] == -1) {
-        rightVec[0] = -this.speed;
-        leftVec = [this.speed, 0, 0];
+      const rightV = vec3_exports.fromValues(0, 0, 0);
+      this.object.getRight(rightV);
+      rightV[1] = 0;
+      const leftV = vec3_exports.create();
+      if (vec3_exports.equals(rightV, [1, 0, 0])) {
+        vec3_exports.set(rightV, this.speed, 0, 0);
+        vec3_exports.set(leftV, -this.speed, 0, 0);
+      } else if (vec3_exports.equals(rightV, [-1, 0, 0])) {
+        vec3_exports.set(rightV, -this.speed, 0, 0);
+        vec3_exports.set(leftV, this.speed, 0, 0);
       } else {
-        let angle2 = vec3_exports.angle([-1, 0, 0], rightVec);
-        let xPolarity = -1;
-        let zPolarity = -1;
-        if (rightVec[0] > 0)
-          xPolarity = 1;
-        rightVec[0] = xPolarity * Math.abs(Math.cos(angle2)) * this.speed;
-        leftVec[0] = -rightVec[0];
-        if (rightVec[2] > 0)
-          zPolarity = 1;
-        rightVec[2] = zPolarity * Math.abs(Math.sin(angle2)) * this.speed;
-        leftVec[2] = -rightVec[2];
+        const angleR = vec3_exports.angle([-1, 0, 0], rightV);
+        const xPolR = rightV[0] > 0 ? 1 : -1;
+        const zPolR = rightV[2] > 0 ? 1 : -1;
+        rightV[0] = xPolR * Math.abs(Math.cos(angleR)) * this.speed;
+        rightV[2] = zPolR * Math.abs(Math.sin(angleR)) * this.speed;
+        leftV[0] = -rightV[0];
+        leftV[2] = -rightV[2];
       }
       if (this.up)
-        vec3_exports.add(direction2, direction2, forwardVec);
+        vec3_exports.add(direction2, direction2, forward);
       if (this.down)
-        vec3_exports.add(direction2, direction2, backVec);
+        vec3_exports.add(direction2, direction2, back);
       if (this.left)
-        vec3_exports.add(direction2, direction2, leftVec);
+        vec3_exports.add(direction2, direction2, leftV);
       if (this.right)
-        vec3_exports.add(direction2, direction2, rightVec);
-      this.headObject.translate(direction2);
+        vec3_exports.add(direction2, direction2, rightV);
+      const newPos = vec3_exports.create();
+      this.headObject.getPositionLocal(newPos);
+      vec3_exports.add(newPos, newPos, direction2);
+      const minX = this.centerPos[0] - this.boundaryLimit;
+      const maxX = this.centerPos[0] + this.boundaryLimit;
+      const minZ = this.centerPos[2] - this.boundaryLimit;
+      const maxZ = this.centerPos[2] + this.boundaryLimit;
+      newPos[0] = Math.min(Math.max(newPos[0], minX), maxX);
+      newPos[2] = Math.min(Math.max(newPos[2], minZ), maxZ);
+      this.headObject.setPositionLocal(newPos);
     }
   }
   press(e) {
@@ -13887,7 +13881,9 @@ __publicField(WasdControlsCustom, "Properties", {
   /** Movement speed in m/s. */
   speed: { type: Type.Float, default: 0.1 },
   /** Object of which the orientation is used to determine forward direction */
-  headObject: { type: Type.Object }
+  headObject: { type: Type.Object },
+  /** Maximum distance from center on X and Z axes */
+  boundaryLimit: { type: Type.Float, default: 12 }
 });
 
 // js/index.js

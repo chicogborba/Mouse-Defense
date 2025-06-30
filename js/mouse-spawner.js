@@ -38,7 +38,7 @@ export class MouseSpawner extends Component {
     static onRegister(engine) {
         engine.registerComponent(ScoreTrigger);
         engine.registerComponent(HowlerAudioSource);
-        engine.registerComponent(MouseMover);
+        // engine.registerComponent(MouseMover);
     }
 
     time = 0;
@@ -96,44 +96,57 @@ export class MouseSpawner extends Component {
         this.object.resetPosition();
     }
 
+
     spawnTarget() {
+        // cria o objeto no mesmo ponto do spawner
         const obj = this.engine.scene.addObject();
         obj.setTransformLocal(this.object.getTransformWorld(tempQuat2));
-
-        // Adjust scale to be more reasonable for collision detection
+    
+        // --- NOVO: calcula deslocamento aleatório no plano XZ ---
+        const angle = Math.random() * 2 * Math.PI;
+        const dist  = Math.random() * 5.0;
+        const dx    = Math.cos(angle) * dist;
+        const dz    = Math.sin(angle) * dist;
+        // aplica ao objeto
+        obj.translateLocal([dx, 0, dz]);
+    
+        // escala, mesh, material etc.
         obj.scaleLocal([1, 1, 1]);
-        const mesh = obj.addComponent('mesh');
-        mesh.mesh = this.targetMesh;
+        const mesh = obj.addComponent("mesh");
+        mesh.mesh     = this.targetMesh;
         mesh.material = this.targetMaterial;
-        mesh.active = true;
+        mesh.active   = true;
+    
+        // movimento
         obj.addComponent(MouseMover);
-
-        // Rotate the model to be right side up
+    
+        // corrige rotação
         obj.rotateAxisAngleDegLocal([1, 0, 0], 180);
-
+    
+        // animação de spawn
         if (this.spawnAnimation) {
             const anim = obj.addComponent("animation");
             anim.playCount = 1;
             anim.animation = this.spawnAnimation;
-            anim.active = true;
+            anim.active    = true;
             anim.play();
         }
-
-        /* Add scoring trigger */
+    
+        // gatilho de pontuação
         const trigger = this.engine.scene.addObject(obj);
         trigger.addComponent("collision", {
             collider: WL.Collider.Sphere,
-            extents: [1.5, 1.5, 1.5],
-            group: 1 << 0,
-            active: true,
+            extents:  [1.5, 1.5, 1.5],
+            group:    1 << 0,
+            active:   true,
         });
-
         trigger.translateLocal([0, 1, 0]);
         trigger.addComponent(ScoreTrigger, {
             particles: this.particles
         });
-
+    
         obj.setDirty();
         this.targets.push(obj);
     }
+    
 };

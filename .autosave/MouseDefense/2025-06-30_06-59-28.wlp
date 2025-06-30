@@ -234,12 +234,6 @@
                 0.0008869,
                 0.0161192
             ],
-            "rotation": [
-                -0.0,
-                0.7316615,
-                0.6816681,
-                3.196286257889369e-8
-            ],
             "scaling": [
                 0.9999998,
                 0.9999998,
@@ -1676,27 +1670,24 @@
                         "bulletMesh": "9",
                         "bulletMaterial": "22"
                     }
-                },
-                {
-                    "type": "spawn-mover"
                 }
             ],
             "name": "MouseSpawner",
-            "translation": [
-                -3.0,
-                4.76837158203125e-7,
-                -3.0
-            ],
-            "rotation": [
-                0.7071068,
-                0.0,
-                0.0,
-                0.7071067
-            ],
             "scaling": [
                 0.2,
-                0.1999848,
-                0.1999859
+                0.1999813,
+                0.1999823
+            ],
+            "rotation": [
+                0.707102,
+                0.0,
+                0.0,
+                0.7071114
+            ],
+            "translation": [
+                -22.3248748,
+                -9.5367431640625e-7,
+                8.5837488
             ]
         },
         "970": {
@@ -1717,10 +1708,10 @@
                     "type": "score-display"
                 }
             ],
-            "translation": [
-                0.0,
-                2.3104021,
-                0.0
+            "scaling": [
+                0.2,
+                0.2,
+                0.2
             ],
             "rotation": [
                 0.0,
@@ -1728,10 +1719,10 @@
                 0.0,
                 1.0
             ],
-            "scaling": [
-                1.5,
-                1.5,
-                1.5
+            "translation": [
+                0.0163903,
+                1.8593227,
+                4.0734233
             ]
         },
         "972": {
@@ -1749,10 +1740,10 @@
                     "type": "shot-counter"
                 }
             ],
-            "translation": [
-                0.0,
-                1.9985342,
-                0.0
+            "scaling": [
+                0.2,
+                0.2,
+                0.2
             ],
             "rotation": [
                 0.0,
@@ -1760,10 +1751,10 @@
                 0.0,
                 1.0
             ],
-            "scaling": [
-                1.5,
-                1.5,
-                1.5
+            "translation": [
+                0.0199566,
+                1.8341934,
+                4.0704011
             ]
         },
         "981": {
@@ -1899,896 +1890,731 @@
         },
         "1002": {
             "link": {
-                "name": "RootNode",
-                "file": "assets\\City Builder Bits\\Building.glb"
-            }
+                "name": "Node",
+                "file": "assets\\Propeller.glb"
+            },
+            "parent": "130",
+            "translation": [
+                -8.011497243387566e-7,
+                0.0,
+                0.000001
+            ],
+            "rotation": [
+                -4.331257628109597e-7,
+                1.0,
+                -3.139164732601785e-7,
+                0.0
+            ],
+            "scaling": [
+                0.0299999,
+                0.0300002,
+                0.0299999
+            ]
         },
         "1003": {
             "link": {
-                "name": "building_A<RootNode",
-                "file": "assets\\City Builder Bits\\Building.glb"
+                "name": "RootNode",
+                "file": "assets\\City Builder Bits\\Building-g15lpKh4li.glb"
             },
-            "parent": "1002",
+            "name": "Buildings",
             "translation": [
-                21.528162,
-                -0.3095509,
-                -10.2822504
+                0.0,
+                0.0,
+                0.0
             ],
             "rotation": [
-                3.4550939176369866e-7,
-                -0.7126993,
-                -9.732599437484168e-7,
-                0.7014696
+                0.0,
+                0.0,
+                0.0,
+                1.0
             ],
             "scaling": [
-                399.9995727,
-                400.0,
-                399.9998474
+                1.0,
+                1.0,
+                1.0
             ]
         },
         "1004": {
             "link": {
-                "name": "RootNode",
-                "file": "assets\\City Builder Bits\\Trafficlight B.glb"
-            }
-        },
-        "1005": {
-            "link": {
-                "name": "trafficlight_B<RootNode",
-                "file": "assets\\City Builder Bits\\Trafficlight B.glb"
+                "name": "building_C<RootNode",
+                "file": "assets\\City Builder Bits\\Building-g15lpKh4li.glb"
             },
-            "parent": "1004",
+            "parent": "1003",
             "translation": [
-                -8.3012866,
-                0.3726542,
-                15.4682655
+                12.5629701,
+                -0.0,
+                15.9697208
             ],
             "rotation": [
-                -2.6575989409138856e-7,
-                0.9478759,
-                -2.958004188258201e-7,
-                -0.3186397
+                7.549790126404332e-8,
+                1.0,
+                3.139151090181258e-7,
+                0.0
             ],
             "scaling": [
-                400.0000305,
-                400.0,
-                400.000061
+                300.0,
+                300.0006713,
+                300.0001831
             ]
         },
         "1006": {
             "link": {
-                "name": "RootNode",
-                "file": "assets\\City Builder Bits\\Base.glb"
-            }
-        },
-        "1007": {
-            "link": {
-                "name": "base<RootNode",
-                "file": "assets\\City Builder Bits\\Base.glb"
+                "name": "building_F<RootNode",
+                "file": "assets\\City Builder Bits\\Building-T3oyvK6VEU.glb"
             },
-            "parent": "1006",
+            "parent": "1003",
             "translation": [
-                4.6236495,
-                -0.3820945,
-                -0.233818
+                7.3093237,
+                -0.0,
+                15.967081
             ],
             "rotation": [
-                2.1855694143368964e-8,
-                0.0,
-                0.0,
-                1.0
+                7.549790836947069e-8,
+                1.0,
+                -9.735359896012596e-8,
+                -0.0
             ],
             "scaling": [
-                2000.0,
-                400.0,
-                2000.0
+                300.0,
+                300.0002136,
+                300.0
             ]
         },
         "1008": {
             "link": {
-                "name": "RootNode",
-                "file": "assets\\City Builder Bits\\Watertower.glb"
-            }
-        },
-        "1009": {
-            "link": {
-                "name": "RootNode",
-                "file": "assets\\City Builder Bits\\Building B.glb"
-            }
-        },
-        "1011": {
-            "link": {
-                "name": "building_B<RootNode",
-                "file": "assets\\City Builder Bits\\Building B.glb"
+                "name": "building_E<RootNode",
+                "file": "assets\\City Builder Bits\\Building-qOhhGLftam.glb"
             },
-            "parent": "1009",
+            "parent": "1003",
+            "scaling": [
+                299.9996948,
+                300.0,
+                299.9996948
+            ],
             "translation": [
-                -8.8942661,
-                -0.307106,
-                -16.266468
+                1.230983,
+                0.0,
+                15.9919338
             ],
             "rotation": [
-                2.1855729670505752e-8,
-                0.0,
-                0.0,
-                1.0
-            ],
+                7.549790836947069e-8,
+                1.0,
+                -6.715645213262178e-7,
+                -0.0
+            ]
+        },
+        "1010": {
+            "link": {
+                "name": "building_A<RootNode",
+                "file": "assets\\City Builder Bits\\Building.glb"
+            },
+            "parent": "1003",
             "scaling": [
-                400.0,
-                400.0,
-                400.0
+                299.9990844,
+                300.0,
+                299.9991149
+            ],
+            "translation": [
+                -4.250626,
+                0.0000101,
+                15.9798879
+            ],
+            "rotation": [
+                -7.54979225803254e-8,
+                1.0,
+                -7.54532436531008e-8,
+                0.0
             ]
         },
         "1012": {
             "link": {
-                "name": "RootNode",
-                "file": "assets\\City Builder Bits\\Car Hatchback.glb"
-            }
-        },
-        "1013": {
-            "link": {
-                "name": "car_hatchback<RootNode",
-                "file": "assets\\City Builder Bits\\Car Hatchback.glb"
+                "name": "building_B<RootNode",
+                "file": "assets\\City Builder Bits\\Building B.glb"
             },
-            "parent": "1012",
+            "parent": "1003",
+            "scaling": [
+                300.0001831,
+                300.0,
+                300.0002136
+            ],
             "translation": [
-                12.7566833,
-                -0.0000033,
-                -6.9431476
+                -8.6320924,
+                -0.0,
+                16.0203342
             ],
             "rotation": [
-                -0.6263674,
-                0.3281213,
-                0.3281206,
-                0.6263681
-            ],
-            "scaling": [
-                399.9999084,
-                399.9992065,
-                399.9994201
+                -7.549790126404332e-8,
+                1.0,
+                7.549947156348935e-8,
+                -0.0
             ]
         },
-        "1014": {
+        "1009": {
             "link": {
-                "name": "car_hatchback_wheel_front_left<car_hatchback<RootNode",
-                "file": "assets\\City Builder Bits\\Car Hatchback.glb"
+                "name": "building_C<RootNode",
+                "file": "assets\\City Builder Bits\\Building-g15lpKh4li.glb"
             },
-            "parent": "1013"
+            "parent": "1003",
+            "translation": [
+                -8.1274194,
+                0.0000033,
+                -11.6472749
+            ],
+            "rotation": [
+                9.78017396846553e-7,
+                0.0048772,
+                1.0099002523134004e-8,
+                0.999988
+            ],
+            "scaling": [
+                300.0,
+                300.0006713,
+                300.0003662
+            ]
         },
-        "1015": {
+        "1007": {
             "link": {
-                "name": "car_hatchback_wheel_rear_left<car_hatchback<RootNode",
-                "file": "assets\\City Builder Bits\\Car Hatchback.glb"
+                "name": "building_F<RootNode",
+                "file": "assets\\City Builder Bits\\Building-T3oyvK6VEU.glb"
             },
-            "parent": "1013"
+            "parent": "1003",
+            "translation": [
+                -2.874041,
+                0.0000033,
+                -11.6959323
+            ],
+            "rotation": [
+                1.3931339992723224e-7,
+                0.0048774,
+                2.6534724639759588e-8,
+                0.9999881
+            ],
+            "scaling": [
+                300.0000915,
+                300.0002136,
+                300.0000915
+            ]
         },
-        "1016": {
+        "1005": {
             "link": {
-                "name": "car_hatchback_wheel_front_right<car_hatchback<RootNode",
-                "file": "assets\\City Builder Bits\\Car Hatchback.glb"
+                "name": "building_E<RootNode",
+                "file": "assets\\City Builder Bits\\Building-qOhhGLftam.glb"
             },
-            "parent": "1013"
+            "parent": "1003",
+            "scaling": [
+                299.9996337,
+                300.0,
+                299.9995422
+            ],
+            "translation": [
+                3.2037107,
+                0.0000033,
+                -11.780097
+            ],
+            "rotation": [
+                0.000001,
+                0.0048769,
+                1.4778271406612478e-7,
+                0.9999881
+            ]
         },
         "1017": {
             "link": {
-                "name": "car_hatchback_wheel_rear_right<car_hatchback<RootNode",
-                "file": "assets\\City Builder Bits\\Car Hatchback.glb"
+                "name": "building_A<RootNode",
+                "file": "assets\\City Builder Bits\\Building.glb"
             },
-            "parent": "1013"
+            "parent": "1003",
+            "scaling": [
+                299.9987487,
+                300.0,
+                299.9990539
+            ],
+            "translation": [
+                8.6851453,
+                0.0000135,
+                -11.8215398
+            ],
+            "rotation": [
+                -2.701070513921877e-7,
+                0.0048774,
+                -4.229029570979037e-8,
+                0.9999881
+            ]
         },
         "1018": {
             "link": {
-                "name": "RootNode",
-                "file": "assets\\City Builder Bits\\Building-bbH2Bg73qM.glb"
-            }
+                "name": "building_B<RootNode",
+                "file": "assets\\City Builder Bits\\Building B.glb"
+            },
+            "parent": "1003",
+            "scaling": [
+                300.0,
+                300.0,
+                300.0001831
+            ],
+            "translation": [
+                13.0659646,
+                0.0000033,
+                -11.9047079
+            ],
+            "rotation": [
+                2.967267391795758e-7,
+                0.0048772,
+                -9.41150517519418e-8,
+                0.999988
+            ]
         },
         "1019": {
             "link": {
-                "name": "building_G<RootNode",
-                "file": "assets\\City Builder Bits\\Building-bbH2Bg73qM.glb"
+                "name": "building_C<RootNode",
+                "file": "assets\\City Builder Bits\\Building-g15lpKh4li.glb"
             },
-            "parent": "1018",
+            "parent": "1003",
             "translation": [
-                -0.9121541,
-                -0.2996826,
-                -16.2675266
+                -11.8309202,
+                0.000007,
+                12.3766679
             ],
             "rotation": [
-                2.1855720788721555e-8,
-                0.0,
-                0.0,
-                1.0
+                9.79478841145465e-7,
+                0.7067383,
+                -4.831733235732827e-7,
+                0.707475
             ],
             "scaling": [
-                400.0,
-                400.0,
-                400.0
+                299.9995422,
+                300.0006713,
+                300.0001831
             ]
         },
         "1020": {
             "link": {
-                "name": "RootNode",
-                "file": "assets\\City Builder Bits\\Building-qOhhGLftam.glb"
-            }
+                "name": "building_F<RootNode",
+                "file": "assets\\City Builder Bits\\Building-T3oyvK6VEU.glb"
+            },
+            "parent": "1003",
+            "translation": [
+                -11.8225841,
+                0.000007,
+                7.1230001
+            ],
+            "rotation": [
+                2.5710858153615845e-7,
+                0.7067276,
+                7.722381667463196e-8,
+                0.7074857
+            ],
+            "scaling": [
+                299.9999694,
+                300.0002136,
+                299.9998168
+            ]
         },
         "1021": {
             "link": {
                 "name": "building_E<RootNode",
                 "file": "assets\\City Builder Bits\\Building-qOhhGLftam.glb"
             },
-            "parent": "1020",
+            "parent": "1003",
+            "scaling": [
+                299.9995422,
+                300.0,
+                299.9993896
+            ],
             "translation": [
-                15.0146121,
-                -0.3066444,
-                -16.252182
+                -11.84099,
+                0.000007,
+                1.0447168
             ],
             "rotation": [
-                2.1855694143368964e-8,
-                0.0,
-                0.0,
-                1.0
-            ],
-            "scaling": [
-                400.0,
-                400.0,
-                400.0
+                0.0000016,
+                0.7067377,
+                -0.0000015,
+                0.7074756
             ]
         },
         "1022": {
             "link": {
-                "name": "RootNode",
-                "file": "assets\\City Builder Bits\\Bush.glb"
-            }
+                "name": "building_A<RootNode",
+                "file": "assets\\City Builder Bits\\Building.glb"
+            },
+            "parent": "1003",
+            "scaling": [
+                299.9987487,
+                300.0,
+                299.9991149
+            ],
+            "translation": [
+                -11.8230161,
+                0.0000172,
+                -4.4368805
+            ],
+            "rotation": [
+                -3.599122067043936e-7,
+                0.7067383,
+                0.000001,
+                0.707475
+            ]
         },
         "1023": {
             "link": {
-                "name": "bush<RootNode",
-                "file": "assets\\City Builder Bits\\Bush.glb"
+                "name": "building_B<RootNode",
+                "file": "assets\\City Builder Bits\\Building B.glb"
             },
-            "parent": "1022",
+            "parent": "1003",
+            "scaling": [
+                299.9998168,
+                300.0,
+                299.9999084
+            ],
             "translation": [
-                17.4081001,
-                0.0,
-                1.0451939
+                -11.8587274,
+                0.000007,
+                -8.8183822
             ],
             "rotation": [
-                2.1855694143368964e-8,
-                0.0,
-                0.0,
-                1.0
-            ],
-            "scaling": [
-                400.0,
-                400.0,
-                400.0
+                3.5566139899856353e-7,
+                0.7067407,
+                -5.140499865774473e-7,
+                0.7074726
             ]
         },
         "1024": {
             "link": {
                 "name": "RootNode",
-                "file": "assets\\City Builder Bits\\Building-T3oyvK6VEU.glb"
-            }
+                "file": "assets\\City Builder Bits\\Building-g15lpKh4li.glb"
+            },
+            "name": "Buildings",
+            "translation": [
+                4.1522879,
+                0.000007,
+                -0.1690248
+            ],
+            "rotation": [
+                1.1708944924748721e-8,
+                -0.7074879,
+                7.915264177427161e-7,
+                0.7067254
+            ],
+            "scaling": [
+                0.9999759,
+                1.0,
+                0.9999828
+            ],
+            "parent": "1003"
         },
         "1025": {
             "link": {
-                "name": "building_F<RootNode",
-                "file": "assets\\City Builder Bits\\Building-T3oyvK6VEU.glb"
+                "name": "building_C<RootNode",
+                "file": "assets\\City Builder Bits\\Building-g15lpKh4li.glb"
             },
-            "parent": "1024",
+            "parent": "1003",
             "translation": [
-                7.0016231,
-                -0.2985855,
-                -16.2534599
+                16.9930706,
+                0.000007,
+                -9.9607076
             ],
             "rotation": [
-                2.185570480151e-8,
-                0.0,
-                0.0,
-                1.0
+                3.351156010467094e-7,
+                -0.7129424,
+                7.171025799834752e-7,
+                0.7012225
             ],
             "scaling": [
-                400.0,
-                400.0,
-                400.0
+                299.9999694,
+                300.0006713,
+                300.0008239
             ]
         },
         "1026": {
             "link": {
-                "name": "RootNode",
-                "file": "assets\\City Builder Bits\\Police Car.glb"
-            }
-        },
-        "730": {
-            "link": {
-                "name": "car_police<RootNode",
-                "file": "assets\\City Builder Bits\\Police Car.glb"
+                "name": "building_F<RootNode",
+                "file": "assets\\City Builder Bits\\Building-T3oyvK6VEU.glb"
             },
-            "parent": "1026",
+            "parent": "1003",
             "translation": [
-                14.7141666,
-                1.2497379,
-                13.2697982
+                16.9029979,
+                0.000007,
+                -4.7076416
             ],
             "rotation": [
-                0.5174591,
-                -0.1871406,
-                0.1171321,
-                0.8267372
+                -8.561429467590642e-7,
+                -0.7129583,
+                -4.366559664958914e-7,
+                0.7012064
             ],
             "scaling": [
-                399.9999694,
-                399.9989013,
-                399.9986267
-            ]
-        },
-        "772": {
-            "link": {
-                "name": "RootNode",
-                "file": "assets\\City Builder Bits\\Building-g15lpKh4li.glb"
-            }
-        },
-        "731": {
-            "link": {
-                "name": "building_C<RootNode",
-                "file": "assets\\City Builder Bits\\Building-g15lpKh4li.glb"
-            },
-            "parent": "772",
-            "translation": [
-                21.2259101,
-                -0.2794404,
-                11.0008316
-            ],
-            "rotation": [
-                -0.000001,
-                -0.707101,
-                -6.706869157824258e-7,
-                0.7071124
-            ],
-            "scaling": [
-                399.9898376,
-                400.0021057,
-                399.9897766
-            ]
-        },
-        "732": {
-            "link": {
-                "name": "RootNode",
-                "file": "assets\\City Builder Bits\\Building-7lMEpT2ICD.glb"
-            }
-        },
-        "751": {
-            "link": {
-                "name": "building_D<RootNode",
-                "file": "assets\\City Builder Bits\\Building-7lMEpT2ICD.glb"
-            },
-            "parent": "732",
-            "translation": [
-                21.35326,
-                -0.2998006,
-                4.5807685
-            ],
-            "rotation": [
-                3.83851357810272e-7,
-                -0.707098,
-                1.1389896314994985e-7,
-                0.7071155
-            ],
-            "scaling": [
-                399.9899291,
-                400.0031433,
-                399.9899291
-            ]
-        },
-        "753": {
-            "link": {
-                "name": "RootNode",
-                "file": "assets\\City Builder Bits\\Building-otRsYa6pan.glb"
-            }
-        },
-        "1054": {
-            "link": {
-                "name": "building_H<RootNode",
-                "file": "assets\\City Builder Bits\\Building-otRsYa6pan.glb"
-            },
-            "parent": "753",
-            "translation": [
-                5.386569,
-                -0.213565,
-                20.9768524
-            ],
-            "scaling": [
-                399.9960632,
-                400.0013732,
-                399.9960632
-            ],
-            "rotation": [
-                -7.54977378392141e-8,
-                1.0,
-                0.0000396,
-                -4.37149623166988e-8
-            ]
-        },
-        "1055": {
-            "link": {
-                "name": "RootNode",
-                "file": "assets\\City Builder Bits\\Building-qOhhGLftam.glb"
-            }
-        },
-        "1056": {
-            "link": {
-                "name": "building_E<RootNode",
-                "file": "assets\\City Builder Bits\\Building-qOhhGLftam.glb"
-            },
-            "parent": "1055",
-            "translation": [
-                21.3838615,
-                -0.3045162,
-                -3.3633069
-            ],
-            "rotation": [
-                0.0000012,
-                -0.7070965,
-                8.622214977549447e-7,
-                0.7071169
-            ],
-            "scaling": [
-                399.9850158,
-                400.0008239,
-                399.9849243
-            ]
-        },
-        "1057": {
-            "link": {
-                "name": "RootNode",
-                "file": "assets\\City Builder Bits\\Stationwagon.glb"
-            }
-        },
-        "1058": {
-            "link": {
-                "name": "car_stationwagon<RootNode",
-                "file": "assets\\City Builder Bits\\Stationwagon.glb"
-            },
-            "parent": "1057",
-            "translation": [
-                -8.5627813,
-                0.0000028,
-                -7.1822118
-            ],
-            "rotation": [
-                -0.7044012,
-                0.0617821,
-                0.0617819,
-                0.7044038
-            ],
-            "scaling": [
-                400.000122,
-                399.9990234,
-                399.9989013
-            ]
-        },
-        "1059": {
-            "link": {
-                "name": "car_stationwagon_wheel_front_left<car_stationwagon<RootNode",
-                "file": "assets\\City Builder Bits\\Stationwagon.glb"
-            },
-            "parent": "1058"
-        },
-        "1060": {
-            "link": {
-                "name": "car_stationwagon_wheel_rear_left<car_stationwagon<RootNode",
-                "file": "assets\\City Builder Bits\\Stationwagon.glb"
-            },
-            "parent": "1058"
-        },
-        "1061": {
-            "link": {
-                "name": "car_stationwagon_wheel_front_right<car_stationwagon<RootNode",
-                "file": "assets\\City Builder Bits\\Stationwagon.glb"
-            },
-            "parent": "1058"
-        },
-        "1062": {
-            "link": {
-                "name": "car_stationwagon_wheel_rear_right<car_stationwagon<RootNode",
-                "file": "assets\\City Builder Bits\\Stationwagon.glb"
-            },
-            "parent": "1058"
-        },
-        "1063": {
-            "link": {
-                "name": "RootNode",
-                "file": "assets\\City Builder Bits\\Building-bbH2Bg73qM.glb"
-            }
-        },
-        "1064": {
-            "link": {
-                "name": "building_G<RootNode",
-                "file": "assets\\City Builder Bits\\Building-bbH2Bg73qM.glb"
-            },
-            "parent": "1063",
-            "translation": [
-                13.263462,
-                -0.2122051,
-                20.6946353
-            ],
-            "rotation": [
-                7.549790126404332e-8,
-                1.0,
-                -8.052668363234261e-7,
-                -4.371141670844736e-8
-            ],
-            "scaling": [
-                400.0,
-                400.0001831,
-                400.0
-            ]
-        },
-        "1065": {
-            "link": {
-                "name": "RootNode",
-                "file": "assets\\City Builder Bits\\Building B.glb"
-            }
-        },
-        "1066": {
-            "link": {
-                "name": "building_B<RootNode",
-                "file": "assets\\City Builder Bits\\Building B.glb"
-            },
-            "parent": "1065",
-            "rotation": [
-                0.0000015,
-                -0.7070967,
-                4.950352945343184e-7,
-                0.7071167
-            ],
-            "scaling": [
-                399.9822998,
-                400.0,
-                399.9822998
-            ],
-            "translation": [
-                21.1410484,
-                -0.2169127,
-                17.2430877
-            ]
-        },
-        "1067": {
-            "link": {
-                "name": "building_B<RootNode",
-                "file": "assets\\City Builder Bits\\Building B.glb"
-            },
-            "parent": "1009",
-            "translation": [
-                -1.5912809,
-                -0.2304374,
-                21.1400394
-            ],
-            "rotation": [
-                7.549795100203482e-8,
-                1.0,
-                6.051290313280333e-8,
-                -4.3711402497592644e-8
-            ],
-            "scaling": [
-                400.0,
-                400.0,
-                400.0
-            ]
-        },
-        "1068": {
-            "link": {
-                "name": "building_B<RootNode",
-                "file": "assets\\City Builder Bits\\Building B.glb"
-            },
-            "parent": "1009",
-            "translation": [
-                -8.8906173,
-                -0.2304376,
-                21.1400394
-            ],
-            "rotation": [
-                7.549795100203482e-8,
-                1.0,
-                6.051290313280333e-8,
-                -4.3711402497592644e-8
-            ],
-            "scaling": [
-                400.0,
-                400.0,
-                400.0
-            ]
-        },
-        "1069": {
-            "link": {
-                "name": "building_A<RootNode",
-                "file": "assets\\City Builder Bits\\Building.glb"
-            },
-            "parent": "772",
-            "translation": [
-                -15.7030344,
-                -0.3095504,
-                16.8749713
-            ],
-            "rotation": [
-                -0.000002,
-                0.7023586,
-                3.5542464615900826e-7,
-                0.7118232
-            ],
-            "scaling": [
-                399.9992065,
-                400.0,
-                399.9994812
-            ]
-        },
-        "1070": {
-            "link": {
-                "name": "building_C<RootNode",
-                "file": "assets\\City Builder Bits\\Building-g15lpKh4li.glb"
-            },
-            "parent": "772",
-            "translation": [
-                -15.4536437,
-                -0.2794409,
-                -4.40871
-            ],
-            "rotation": [
-                -7.936066026559274e-7,
-                0.707993,
-                0.0000016,
-                0.7062194
-            ],
-            "scaling": [
-                399.9875488,
-                400.0021057,
-                399.9870605
-            ]
-        },
-        "1071": {
-            "link": {
-                "name": "building_D<RootNode",
-                "file": "assets\\City Builder Bits\\Building-7lMEpT2ICD.glb"
-            },
-            "parent": "772",
-            "translation": [
-                -15.5650634,
-                -0.2998024,
-                2.0116515
-            ],
-            "rotation": [
-                -2.1256686011383863e-7,
-                0.7079973,
-                3.5028247680202185e-7,
-                0.706215
-            ],
-            "scaling": [
-                399.9865112,
-                400.0031433,
-                399.9869384
-            ]
-        },
-        "1072": {
-            "link": {
-                "name": "building_E<RootNode",
-                "file": "assets\\City Builder Bits\\Building-qOhhGLftam.glb"
-            },
-            "parent": "772",
-            "translation": [
-                -15.5755901,
-                -0.3045109,
-                9.9556388
-            ],
-            "rotation": [
-                -5.075443709756655e-7,
-                0.707996,
-                -6.086207235966867e-7,
-                0.7062163
-            ],
-            "scaling": [
-                399.9817504,
-                400.0008239,
-                399.9821166
-            ]
-        },
-        "1073": {
-            "link": {
-                "name": "building_B<RootNode",
-                "file": "assets\\City Builder Bits\\Building B.glb"
-            },
-            "parent": "772",
-            "rotation": [
-                6.646050678682514e-7,
-                0.7079974,
-                -0.000002,
-                0.7062149
-            ],
-            "scaling": [
-                399.979309,
-                400.0,
-                399.9796142
-            ],
-            "translation": [
-                -15.3839073,
-                -0.2169109,
-                -10.6512241
+                299.996582,
+                300.0002136,
+                299.9962768
             ]
         },
         "1027": {
             "link": {
-                "name": "bush<RootNode",
-                "file": "assets\\City Builder Bits\\Bush.glb"
+                "name": "building_E<RootNode",
+                "file": "assets\\City Builder Bits\\Building-qOhhGLftam.glb"
             },
-            "parent": "1022",
+            "parent": "1003",
+            "scaling": [
+                299.9991149,
+                300.0,
+                299.9989929
+            ],
             "translation": [
-                -11.8083724,
-                0.0,
-                -12.963005
+                16.8269958,
+                0.000007,
+                1.3701596
             ],
             "rotation": [
-                2.1855694143368964e-8,
-                0.0,
-                0.0,
-                1.0
-            ],
-            "scaling": [
-                400.0,
-                400.0,
-                400.0
+                0.0000018,
+                -0.7129423,
+                0.000002,
+                0.7012227
             ]
         },
         "1028": {
             "link": {
-                "name": "bush<RootNode",
-                "file": "assets\\City Builder Bits\\Bush.glb"
+                "name": "building_A<RootNode",
+                "file": "assets\\City Builder Bits\\Building.glb"
             },
-            "parent": "1022",
+            "parent": "1003",
+            "scaling": [
+                299.9989318,
+                300.0,
+                299.999176
+            ],
             "translation": [
-                -11.7801904,
-                0.0,
-                -4.6666092
+                16.7238159,
+                0.0000172,
+                6.8508596
             ],
             "rotation": [
-                2.1855694143368964e-8,
-                0.0,
-                0.0,
-                1.0
-            ],
-            "scaling": [
-                400.0,
-                400.0,
-                400.0
+                -0.0000018,
+                -0.712942,
+                -0.0000017,
+                0.7012229
             ]
         },
         "1029": {
             "link": {
-                "name": "bush<RootNode",
-                "file": "assets\\City Builder Bits\\Bush.glb"
+                "name": "building_B<RootNode",
+                "file": "assets\\City Builder Bits\\Building B.glb"
             },
-            "parent": "1022",
+            "parent": "1003",
+            "scaling": [
+                299.9996337,
+                300.0,
+                300.0001831
+            ],
             "translation": [
-                14.7831182,
-                -0.0000019,
-                -12.3137979
+                16.6914978,
+                0.000007,
+                11.2324008
             ],
             "rotation": [
-                2.1855694143368964e-8,
-                0.0,
-                0.0,
-                1.0
-            ],
-            "scaling": [
-                400.0,
-                400.0,
-                400.0
+                5.448693514154002e-7,
+                -0.712943,
+                6.773153700123657e-7,
+                0.701222
             ]
         },
         "1030": {
             "link": {
                 "name": "RootNode",
-                "file": "assets\\City Builder Bits\\Box.glb"
-            }
-        },
-        "1031": {
-            "link": {
-                "name": "box_A<RootNode",
-                "file": "assets\\City Builder Bits\\Box.glb"
+                "file": "assets\\City Builder Bits\\Building-g15lpKh4li.glb"
             },
-            "parent": "1030",
+            "name": "Buildings",
             "translation": [
-                13.5800151,
-                0.0,
-                16.1775836
+                0.8167635,
+                0.000007,
+                2.3351643
             ],
             "rotation": [
-                2.1855694143368964e-8,
+                0.0000019,
+                0.7012084,
+                9.014252668748668e-7,
+                0.7129563
+            ],
+            "scaling": [
+                0.9999755,
+                1.0,
+                0.9999816
+            ],
+            "parent": "1003"
+        },
+        "1011": {
+            "name": "Scoreboard",
+            "parent": "129",
+            "translation": [
+                0.0,
+                -1.75,
+                -3.9999997
+            ],
+            "rotation": [
+                0.0,
                 0.0,
                 0.0,
                 1.0
             ],
             "scaling": [
-                400.0,
-                400.0,
-                400.0
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        "772": {
+            "name": "ScoreText",
+            "parent": "1011",
+            "components": [
+                {
+                    "type": "text",
+                    "text": {
+                        "text": "Eliminate all 20 rats.",
+                        "effect": "outline"
+                    }
+                },
+                {
+                    "type": "score-display"
+                }
+            ],
+            "translation": [
+                0.0,
+                2.3104021,
+                0.0
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.5,
+                1.5,
+                1.5
+            ]
+        },
+        "730": {
+            "name": "Shots",
+            "parent": "1011",
+            "components": [
+                {
+                    "type": "text",
+                    "text": {
+                        "text": "Shots Fired: 0",
+                        "effect": "outline"
+                    }
+                },
+                {
+                    "type": "shot-counter"
+                }
+            ],
+            "translation": [
+                0.0,
+                1.9985342,
+                0.0
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.5,
+                1.5,
+                1.5
+            ]
+        },
+        "1031": {
+            "link": {
+                "name": "Mouse",
+                "file": "assets\\uploads_files_3861195_Mouse_GLB.glb"
+            },
+            "components": [
+                {
+                    "active": false,
+                    "mesh": {
+                        "material": "996",
+                        "mesh": "982"
+                    }
+                },
+                {
+                    "type": "mouse-spawner",
+                    "mouse-spawner": {
+                        "targetMesh": "982",
+                        "targetMaterial": "996",
+                        "spawnAnimation": "439",
+                        "particles": "482",
+                        "maxTargets": 20,
+                        "bulletMesh": "9",
+                        "bulletMaterial": "22"
+                    }
+                }
+            ],
+            "name": "MouseSpawner",
+            "scaling": [
+                0.2,
+                0.1999787,
+                0.1999798
+            ],
+            "rotation": [
+                0.7070986,
+                0.0,
+                0.0,
+                0.7071149
+            ],
+            "translation": [
+                19.7182445,
+                9.5367431640625e-7,
+                9.2442646
             ]
         },
         "1032": {
             "link": {
-                "name": "RootNode",
-                "file": "assets\\City Builder Bits\\Bench.glb"
+                "name": "Mouse",
+                "file": "assets\\uploads_files_3861195_Mouse_GLB.glb"
             },
-            "translation": [
-                0.0,
-                0.0,
-                -1.2417545
+            "components": [
+                {
+                    "active": false,
+                    "mesh": {
+                        "material": "996",
+                        "mesh": "982"
+                    }
+                },
+                {
+                    "type": "mouse-spawner",
+                    "mouse-spawner": {
+                        "targetMesh": "982",
+                        "targetMaterial": "996",
+                        "spawnAnimation": "439",
+                        "particles": "482",
+                        "maxTargets": 20,
+                        "bulletMesh": "9",
+                        "bulletMaterial": "22"
+                    }
+                },
+                {
+                    "type": "spawn-mover"
+                }
+            ],
+            "name": "MouseSpawner",
+            "scaling": [
+                0.2,
+                0.1999776,
+                0.1999787
             ],
             "rotation": [
+                0.7070955,
                 0.0,
                 0.0,
-                0.0,
-                1.0
-            ],
-            "scaling": [
-                1.0,
-                1.0,
-                1.0
-            ]
-        },
-        "1033": {
-            "link": {
-                "name": "RootNode",
-                "file": "assets\\City Builder Bits\\Rocks.glb"
-            }
-        },
-        "1034": {
-            "link": {
-                "name": "trash_B<RootNode",
-                "file": "assets\\City Builder Bits\\Rocks.glb"
-            },
-            "parent": "1033",
-            "translation": [
-                10.6196022,
-                0.0,
-                -9.087141
-            ],
-            "rotation": [
-                2.1855694143368964e-8,
-                0.0,
-                0.0,
-                1.0
-            ],
-            "scaling": [
-                400.0,
-                400.0,
-                400.0
-            ]
-        },
-        "1040": {
-            "link": {
-                "name": "RootNode",
-                "file": "assets\\City Builder Bits\\Dumpster.glb"
-            }
-        },
-        "1048": {
-            "link": {
-                "name": "dumpster<RootNode",
-                "file": "assets\\City Builder Bits\\Dumpster.glb"
-            },
-            "parent": "1040",
-            "scaling": [
-                400.000122,
-                400.0,
-                399.9999084
+                0.7071179
             ],
             "translation": [
-                15.0294914,
-                0.0000085,
-                8.9363126
-            ],
-            "rotation": [
-                5.252627488516737e-7,
-                -0.7541996,
-                6.649243573519925e-7,
-                0.6566451
+                2.1427974,
+                0.0,
+                14.1278486
             ]
         }
     },
@@ -4187,261 +4013,60 @@
         },
         "983": {
             "link": {
-                "name": "building_A",
-                "file": "assets\\City Builder Bits\\Building.glb"
-            },
-            "simplify": true
+                "name": "Node-Mesh",
+                "file": "assets\\Propeller.glb"
+            }
         },
         "984": {
             "link": {
-                "name": "trafficlight_B",
-                "file": "assets\\City Builder Bits\\Trafficlight B.glb"
-            },
-            "simplify": true
+                "name": "Node-Mesh.0",
+                "file": "assets\\Propeller.glb"
+            }
         },
         "985": {
             "link": {
-                "name": "base",
-                "file": "assets\\City Builder Bits\\Base.glb"
-            },
-            "simplify": true
+                "name": "Node-Mesh.1",
+                "file": "assets\\Propeller.glb"
+            }
         },
         "986": {
-            "link": {
-                "name": "watertower",
-                "file": "assets\\City Builder Bits\\Watertower.glb"
-            },
-            "simplify": true
-        },
-        "987": {
-            "link": {
-                "name": "building_B",
-                "file": "assets\\City Builder Bits\\Building B.glb"
-            },
-            "simplify": true
-        },
-        "988": {
-            "link": {
-                "name": "car_hatchback",
-                "file": "assets\\City Builder Bits\\Car Hatchback.glb"
-            },
-            "simplify": true
-        },
-        "989": {
-            "link": {
-                "name": "car_hatchback_wheel_front_left",
-                "file": "assets\\City Builder Bits\\Car Hatchback.glb"
-            },
-            "simplify": true
-        },
-        "990": {
-            "link": {
-                "name": "car_hatchback_wheel_rear_left",
-                "file": "assets\\City Builder Bits\\Car Hatchback.glb"
-            },
-            "simplify": true
-        },
-        "991": {
-            "link": {
-                "name": "car_hatchback_wheel_front_right",
-                "file": "assets\\City Builder Bits\\Car Hatchback.glb"
-            },
-            "simplify": true
-        },
-        "992": {
-            "link": {
-                "name": "car_hatchback_wheel_rear_right",
-                "file": "assets\\City Builder Bits\\Car Hatchback.glb"
-            },
-            "simplify": true
-        },
-        "993": {
-            "link": {
-                "name": "building_G",
-                "file": "assets\\City Builder Bits\\Building-bbH2Bg73qM.glb"
-            },
-            "simplify": true
-        },
-        "994": {
-            "link": {
-                "name": "building_E",
-                "file": "assets\\City Builder Bits\\Building-qOhhGLftam.glb"
-            },
-            "simplify": true
-        },
-        "995": {
-            "link": {
-                "name": "bush",
-                "file": "assets\\City Builder Bits\\Bush.glb"
-            },
-            "simplify": true
-        },
-        "996": {
-            "link": {
-                "name": "building_F",
-                "file": "assets\\City Builder Bits\\Building-T3oyvK6VEU.glb"
-            },
-            "simplify": true
-        },
-        "997": {
-            "link": {
-                "name": "car_police",
-                "file": "assets\\City Builder Bits\\Police Car.glb"
-            },
-            "simplify": true
-        },
-        "998": {
-            "link": {
-                "name": "car_police_wheel_front_left",
-                "file": "assets\\City Builder Bits\\Police Car.glb"
-            },
-            "simplify": true
-        },
-        "999": {
-            "link": {
-                "name": "car_police_wheel_rear_left",
-                "file": "assets\\City Builder Bits\\Police Car.glb"
-            },
-            "simplify": true
-        },
-        "1000": {
-            "link": {
-                "name": "car_police_wheel_front_right",
-                "file": "assets\\City Builder Bits\\Police Car.glb"
-            },
-            "simplify": true
-        },
-        "1001": {
-            "link": {
-                "name": "car_police_wheel_rear_right",
-                "file": "assets\\City Builder Bits\\Police Car.glb"
-            },
-            "simplify": true
-        },
-        "1002": {
-            "link": {
-                "name": "road_corner",
-                "file": "assets\\City Builder Bits\\Road Bits.glb"
-            },
-            "simplify": true
-        },
-        "1003": {
-            "link": {
-                "name": "road_corner_curved",
-                "file": "assets\\City Builder Bits\\Road Bits.glb"
-            },
-            "simplify": true
-        },
-        "1004": {
-            "link": {
-                "name": "road_junction",
-                "file": "assets\\City Builder Bits\\Road Bits.glb"
-            },
-            "simplify": true
-        },
-        "1005": {
-            "link": {
-                "name": "road_straight",
-                "file": "assets\\City Builder Bits\\Road Bits.glb"
-            },
-            "simplify": true
-        },
-        "1006": {
-            "link": {
-                "name": "road_straight_crossing",
-                "file": "assets\\City Builder Bits\\Road Bits.glb"
-            },
-            "simplify": true
-        },
-        "1007": {
-            "link": {
-                "name": "road_tsplit",
-                "file": "assets\\City Builder Bits\\Road Bits.glb"
-            },
-            "simplify": true
-        },
-        "1008": {
             "link": {
                 "name": "building_C",
                 "file": "assets\\City Builder Bits\\Building-g15lpKh4li.glb"
             },
+            "simplifyTarget": 0.1,
             "simplify": true
         },
-        "1009": {
+        "987": {
             "link": {
-                "name": "building_D",
-                "file": "assets\\City Builder Bits\\Building-7lMEpT2ICD.glb"
+                "name": "building_F",
+                "file": "assets\\City Builder Bits\\Building-T3oyvK6VEU.glb"
             },
+            "simplifyTarget": 0.1,
             "simplify": true
         },
-        "1010": {
+        "988": {
             "link": {
-                "name": "building_H",
-                "file": "assets\\City Builder Bits\\Building-otRsYa6pan.glb"
+                "name": "building_E",
+                "file": "assets\\City Builder Bits\\Building-qOhhGLftam.glb"
             },
+            "simplifyTarget": 0.1,
             "simplify": true
         },
-        "1011": {
+        "989": {
             "link": {
-                "name": "car_stationwagon",
-                "file": "assets\\City Builder Bits\\Stationwagon.glb"
+                "name": "building_A",
+                "file": "assets\\City Builder Bits\\Building.glb"
             },
+            "simplifyTarget": 0.1,
             "simplify": true
         },
-        "1012": {
+        "990": {
             "link": {
-                "name": "car_stationwagon_wheel_front_left",
-                "file": "assets\\City Builder Bits\\Stationwagon.glb"
+                "name": "building_B",
+                "file": "assets\\City Builder Bits\\Building B.glb"
             },
-            "simplify": true
-        },
-        "1013": {
-            "link": {
-                "name": "car_stationwagon_wheel_rear_left",
-                "file": "assets\\City Builder Bits\\Stationwagon.glb"
-            },
-            "simplify": true
-        },
-        "1014": {
-            "link": {
-                "name": "car_stationwagon_wheel_front_right",
-                "file": "assets\\City Builder Bits\\Stationwagon.glb"
-            },
-            "simplify": true
-        },
-        "1015": {
-            "link": {
-                "name": "car_stationwagon_wheel_rear_right",
-                "file": "assets\\City Builder Bits\\Stationwagon.glb"
-            },
-            "simplify": true
-        },
-        "1016": {
-            "link": {
-                "name": "box_A",
-                "file": "assets\\City Builder Bits\\Box.glb"
-            },
-            "simplify": true
-        },
-        "1017": {
-            "link": {
-                "name": "bench",
-                "file": "assets\\City Builder Bits\\Bench.glb"
-            },
-            "simplify": true
-        },
-        "1018": {
-            "link": {
-                "name": "trash_B",
-                "file": "assets\\City Builder Bits\\Rocks.glb"
-            },
-            "simplify": true
-        },
-        "1019": {
-            "link": {
-                "name": "dumpster",
-                "file": "assets\\City Builder Bits\\Dumpster.glb"
-            },
+            "simplifyTarget": 0.1,
             "simplify": true
         }
     },
@@ -4641,121 +4266,31 @@
         "1011": {
             "link": {
                 "name": "base_color_texture",
-                "file": "assets\\City Builder Bits\\Building.glb"
+                "file": "assets\\City Builder Bits\\Building-g15lpKh4li.glb"
             }
         },
         "1012": {
             "link": {
                 "name": "base_color_texture",
-                "file": "assets\\City Builder Bits\\Trafficlight B.glb"
+                "file": "assets\\City Builder Bits\\Building-T3oyvK6VEU.glb"
             }
         },
         "1013": {
             "link": {
                 "name": "base_color_texture",
-                "file": "assets\\City Builder Bits\\Base.glb"
+                "file": "assets\\City Builder Bits\\Building-qOhhGLftam.glb"
             }
         },
         "1014": {
             "link": {
                 "name": "base_color_texture",
-                "file": "assets\\City Builder Bits\\Watertower.glb"
+                "file": "assets\\City Builder Bits\\Building.glb"
             }
         },
         "1015": {
             "link": {
                 "name": "base_color_texture",
                 "file": "assets\\City Builder Bits\\Building B.glb"
-            }
-        },
-        "1016": {
-            "link": {
-                "name": "base_color_texture",
-                "file": "assets\\City Builder Bits\\Car Hatchback.glb"
-            }
-        },
-        "1017": {
-            "link": {
-                "name": "base_color_texture",
-                "file": "assets\\City Builder Bits\\Building-bbH2Bg73qM.glb"
-            }
-        },
-        "1018": {
-            "link": {
-                "name": "base_color_texture",
-                "file": "assets\\City Builder Bits\\Building-qOhhGLftam.glb"
-            }
-        },
-        "1019": {
-            "link": {
-                "name": "base_color_texture",
-                "file": "assets\\City Builder Bits\\Bush.glb"
-            }
-        },
-        "1020": {
-            "link": {
-                "name": "base_color_texture",
-                "file": "assets\\City Builder Bits\\Building-T3oyvK6VEU.glb"
-            }
-        },
-        "1021": {
-            "link": {
-                "name": "base_color_texture",
-                "file": "assets\\City Builder Bits\\Police Car.glb"
-            }
-        },
-        "1022": {
-            "link": {
-                "name": "base_color_texture",
-                "file": "assets\\City Builder Bits\\Road Bits.glb"
-            }
-        },
-        "1023": {
-            "link": {
-                "name": "base_color_texture",
-                "file": "assets\\City Builder Bits\\Building-g15lpKh4li.glb"
-            }
-        },
-        "1024": {
-            "link": {
-                "name": "base_color_texture",
-                "file": "assets\\City Builder Bits\\Building-7lMEpT2ICD.glb"
-            }
-        },
-        "1025": {
-            "link": {
-                "name": "base_color_texture",
-                "file": "assets\\City Builder Bits\\Building-otRsYa6pan.glb"
-            }
-        },
-        "1026": {
-            "link": {
-                "name": "base_color_texture",
-                "file": "assets\\City Builder Bits\\Stationwagon.glb"
-            }
-        },
-        "1027": {
-            "link": {
-                "name": "base_color_texture",
-                "file": "assets\\City Builder Bits\\Box.glb"
-            }
-        },
-        "1028": {
-            "link": {
-                "name": "base_color_texture",
-                "file": "assets\\City Builder Bits\\Bench.glb"
-            }
-        },
-        "1029": {
-            "link": {
-                "name": "base_color_texture",
-                "file": "assets\\City Builder Bits\\Rocks.glb"
-            }
-        },
-        "1030": {
-            "link": {
-                "name": "base_color_texture",
-                "file": "assets\\City Builder Bits\\Dumpster.glb"
             }
         }
     },
@@ -4939,121 +4474,31 @@
         "1010": {
             "link": {
                 "name": "citybits_texture.png",
-                "file": "assets\\City Builder Bits\\Building.glb"
+                "file": "assets\\City Builder Bits\\Building-g15lpKh4li.glb"
             }
         },
         "1011": {
             "link": {
                 "name": "citybits_texture.png",
-                "file": "assets\\City Builder Bits\\Trafficlight B.glb"
+                "file": "assets\\City Builder Bits\\Building-T3oyvK6VEU.glb"
             }
         },
         "1012": {
             "link": {
                 "name": "citybits_texture.png",
-                "file": "assets\\City Builder Bits\\Base.glb"
+                "file": "assets\\City Builder Bits\\Building-qOhhGLftam.glb"
             }
         },
         "1013": {
             "link": {
                 "name": "citybits_texture.png",
-                "file": "assets\\City Builder Bits\\Watertower.glb"
+                "file": "assets\\City Builder Bits\\Building.glb"
             }
         },
         "1014": {
             "link": {
                 "name": "citybits_texture.png",
                 "file": "assets\\City Builder Bits\\Building B.glb"
-            }
-        },
-        "1015": {
-            "link": {
-                "name": "citybits_texture.png",
-                "file": "assets\\City Builder Bits\\Car Hatchback.glb"
-            }
-        },
-        "1016": {
-            "link": {
-                "name": "citybits_texture.png",
-                "file": "assets\\City Builder Bits\\Building-bbH2Bg73qM.glb"
-            }
-        },
-        "1017": {
-            "link": {
-                "name": "citybits_texture.png",
-                "file": "assets\\City Builder Bits\\Building-qOhhGLftam.glb"
-            }
-        },
-        "1018": {
-            "link": {
-                "name": "citybits_texture.png",
-                "file": "assets\\City Builder Bits\\Bush.glb"
-            }
-        },
-        "1019": {
-            "link": {
-                "name": "citybits_texture.png",
-                "file": "assets\\City Builder Bits\\Building-T3oyvK6VEU.glb"
-            }
-        },
-        "1020": {
-            "link": {
-                "name": "citybits_texture.png",
-                "file": "assets\\City Builder Bits\\Police Car.glb"
-            }
-        },
-        "1021": {
-            "link": {
-                "name": "citybits_texture.png",
-                "file": "assets\\City Builder Bits\\Road Bits.glb"
-            }
-        },
-        "1022": {
-            "link": {
-                "name": "citybits_texture.png",
-                "file": "assets\\City Builder Bits\\Building-g15lpKh4li.glb"
-            }
-        },
-        "1023": {
-            "link": {
-                "name": "citybits_texture.png",
-                "file": "assets\\City Builder Bits\\Building-7lMEpT2ICD.glb"
-            }
-        },
-        "1024": {
-            "link": {
-                "name": "citybits_texture.png",
-                "file": "assets\\City Builder Bits\\Building-otRsYa6pan.glb"
-            }
-        },
-        "1025": {
-            "link": {
-                "name": "citybits_texture.png",
-                "file": "assets\\City Builder Bits\\Stationwagon.glb"
-            }
-        },
-        "1026": {
-            "link": {
-                "name": "citybits_texture.png",
-                "file": "assets\\City Builder Bits\\Box.glb"
-            }
-        },
-        "1027": {
-            "link": {
-                "name": "citybits_texture.png",
-                "file": "assets\\City Builder Bits\\Bench.glb"
-            }
-        },
-        "1028": {
-            "link": {
-                "name": "citybits_texture.png",
-                "file": "assets\\City Builder Bits\\Rocks.glb"
-            }
-        },
-        "1029": {
-            "link": {
-                "name": "citybits_texture.png",
-                "file": "assets\\City Builder Bits\\Dumpster.glb"
             }
         }
     },
@@ -6706,122 +6151,50 @@
         },
         "997": {
             "link": {
-                "name": "citybits_texture",
-                "file": "assets\\City Builder Bits\\Building.glb"
+                "name": "lambert17SG",
+                "file": "assets\\Propeller.glb"
             }
         },
         "998": {
             "link": {
-                "name": "citybits_texture",
-                "file": "assets\\City Builder Bits\\Trafficlight B.glb"
+                "name": "lambert18SG",
+                "file": "assets\\Propeller.glb"
             }
         },
         "999": {
             "link": {
-                "name": "citybits_texture",
-                "file": "assets\\City Builder Bits\\Base.glb"
+                "name": "lambert19SG",
+                "file": "assets\\Propeller.glb"
             }
         },
         "1000": {
             "link": {
                 "name": "citybits_texture",
-                "file": "assets\\City Builder Bits\\Watertower.glb"
+                "file": "assets\\City Builder Bits\\Building-g15lpKh4li.glb"
             }
         },
         "1001": {
             "link": {
                 "name": "citybits_texture",
-                "file": "assets\\City Builder Bits\\Building B.glb"
+                "file": "assets\\City Builder Bits\\Building-T3oyvK6VEU.glb"
             }
         },
         "1002": {
             "link": {
                 "name": "citybits_texture",
-                "file": "assets\\City Builder Bits\\Car Hatchback.glb"
+                "file": "assets\\City Builder Bits\\Building-qOhhGLftam.glb"
             }
         },
         "1003": {
             "link": {
                 "name": "citybits_texture",
-                "file": "assets\\City Builder Bits\\Building-bbH2Bg73qM.glb"
+                "file": "assets\\City Builder Bits\\Building.glb"
             }
         },
         "1004": {
             "link": {
                 "name": "citybits_texture",
-                "file": "assets\\City Builder Bits\\Building-qOhhGLftam.glb"
-            }
-        },
-        "1005": {
-            "link": {
-                "name": "citybits_texture",
-                "file": "assets\\City Builder Bits\\Bush.glb"
-            }
-        },
-        "1006": {
-            "link": {
-                "name": "citybits_texture",
-                "file": "assets\\City Builder Bits\\Building-T3oyvK6VEU.glb"
-            }
-        },
-        "1007": {
-            "link": {
-                "name": "citybits_texture",
-                "file": "assets\\City Builder Bits\\Police Car.glb"
-            }
-        },
-        "1008": {
-            "link": {
-                "name": "citybits_texture",
-                "file": "assets\\City Builder Bits\\Road Bits.glb"
-            }
-        },
-        "1009": {
-            "link": {
-                "name": "citybits_texture",
-                "file": "assets\\City Builder Bits\\Building-g15lpKh4li.glb"
-            }
-        },
-        "1010": {
-            "link": {
-                "name": "citybits_texture",
-                "file": "assets\\City Builder Bits\\Building-7lMEpT2ICD.glb"
-            }
-        },
-        "1011": {
-            "link": {
-                "name": "citybits_texture",
-                "file": "assets\\City Builder Bits\\Building-otRsYa6pan.glb"
-            }
-        },
-        "1012": {
-            "link": {
-                "name": "citybits_texture",
-                "file": "assets\\City Builder Bits\\Stationwagon.glb"
-            }
-        },
-        "1013": {
-            "link": {
-                "name": "citybits_texture",
-                "file": "assets\\City Builder Bits\\Box.glb"
-            }
-        },
-        "1014": {
-            "link": {
-                "name": "citybits_texture",
-                "file": "assets\\City Builder Bits\\Bench.glb"
-            }
-        },
-        "1015": {
-            "link": {
-                "name": "citybits_texture",
-                "file": "assets\\City Builder Bits\\Rocks.glb"
-            }
-        },
-        "1016": {
-            "link": {
-                "name": "citybits_texture",
-                "file": "assets\\City Builder Bits\\Dumpster.glb"
+                "file": "assets\\City Builder Bits\\Building B.glb"
             }
         }
     },
@@ -7955,102 +7328,32 @@
             "importPhysicalAsPhongMaterials": true
         },
         "1039": {
-            "fileName": "assets/City Builder Bits/Building.glb",
+            "fileName": "assets/Propeller.glb",
             "importerName": "",
             "importPhysicalAsPhongMaterials": true
         },
         "1040": {
-            "fileName": "assets/City Builder Bits/Trafficlight B.glb",
-            "importerName": "",
-            "importPhysicalAsPhongMaterials": true
-        },
-        "1041": {
-            "fileName": "assets/City Builder Bits/Base.glb",
-            "importerName": "",
-            "importPhysicalAsPhongMaterials": true
-        },
-        "1042": {
-            "fileName": "assets/City Builder Bits/Watertower.glb",
-            "importerName": "",
-            "importPhysicalAsPhongMaterials": true
-        },
-        "1043": {
-            "fileName": "assets/City Builder Bits/Building B.glb",
-            "importerName": "",
-            "importPhysicalAsPhongMaterials": true
-        },
-        "1044": {
-            "fileName": "assets/City Builder Bits/Car Hatchback.glb",
-            "importerName": "",
-            "importPhysicalAsPhongMaterials": true
-        },
-        "1045": {
-            "fileName": "assets/City Builder Bits/Building-bbH2Bg73qM.glb",
-            "importerName": "",
-            "importPhysicalAsPhongMaterials": true
-        },
-        "1046": {
-            "fileName": "assets/City Builder Bits/Building-qOhhGLftam.glb",
-            "importerName": "",
-            "importPhysicalAsPhongMaterials": true
-        },
-        "1047": {
-            "fileName": "assets/City Builder Bits/Bush.glb",
-            "importerName": "",
-            "importPhysicalAsPhongMaterials": true
-        },
-        "1048": {
-            "fileName": "assets/City Builder Bits/Building-T3oyvK6VEU.glb",
-            "importerName": "",
-            "importPhysicalAsPhongMaterials": true
-        },
-        "1049": {
-            "fileName": "assets/City Builder Bits/Police Car.glb",
-            "importerName": "",
-            "importPhysicalAsPhongMaterials": true
-        },
-        "1050": {
-            "fileName": "assets/City Builder Bits/Road Bits.glb",
-            "importerName": "",
-            "importPhysicalAsPhongMaterials": true
-        },
-        "1051": {
             "fileName": "assets/City Builder Bits/Building-g15lpKh4li.glb",
             "importerName": "",
             "importPhysicalAsPhongMaterials": true
         },
-        "1052": {
-            "fileName": "assets/City Builder Bits/Building-7lMEpT2ICD.glb",
+        "1041": {
+            "fileName": "assets/City Builder Bits/Building-T3oyvK6VEU.glb",
             "importerName": "",
             "importPhysicalAsPhongMaterials": true
         },
-        "1053": {
-            "fileName": "assets/City Builder Bits/Building-otRsYa6pan.glb",
+        "1042": {
+            "fileName": "assets/City Builder Bits/Building-qOhhGLftam.glb",
             "importerName": "",
             "importPhysicalAsPhongMaterials": true
         },
-        "1054": {
-            "fileName": "assets/City Builder Bits/Stationwagon.glb",
+        "1043": {
+            "fileName": "assets/City Builder Bits/Building.glb",
             "importerName": "",
             "importPhysicalAsPhongMaterials": true
         },
-        "1055": {
-            "fileName": "assets/City Builder Bits/Box.glb",
-            "importerName": "",
-            "importPhysicalAsPhongMaterials": true
-        },
-        "1056": {
-            "fileName": "assets/City Builder Bits/Bench.glb",
-            "importerName": "",
-            "importPhysicalAsPhongMaterials": true
-        },
-        "1057": {
-            "fileName": "assets/City Builder Bits/Rocks.glb",
-            "importerName": "",
-            "importPhysicalAsPhongMaterials": true
-        },
-        "1058": {
-            "fileName": "assets/City Builder Bits/Dumpster.glb",
+        "1044": {
+            "fileName": "assets/City Builder Bits/Building B.glb",
             "importerName": "",
             "importPhysicalAsPhongMaterials": true
         }
