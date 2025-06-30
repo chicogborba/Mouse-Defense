@@ -37,7 +37,7 @@ export class MouseSpawner extends Component {
     };
 
     time = 0;
-    spawnInterval = 2.0;
+    spawnInterval = 1.2;
     targets = [];
 
     // Para controle de waves por lado

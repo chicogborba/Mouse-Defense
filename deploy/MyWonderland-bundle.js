@@ -13395,7 +13395,7 @@ __publicField(ScoreTrigger, "Properties", {
 var tempQuat24 = new Float32Array(8);
 var MouseSpawner = class extends Component3 {
   time = 0;
-  spawnInterval = 2;
+  spawnInterval = 1.2;
   targets = [];
   // Para controle de waves por lado
   sides = ["+X", "-X", "+Z", "-Z"];
