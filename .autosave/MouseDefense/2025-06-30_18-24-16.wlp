@@ -1320,7 +1320,7 @@
                 {
                     "type": "text",
                     "text": {
-                        "text": "Play Again"
+                        "text": "Start"
                     }
                 }
             ],
@@ -1648,7 +1648,7 @@
             },
             "components": [
                 {
-                    "active": false,
+                    "active": true,
                     "mesh": {
                         "material": "996",
                         "mesh": "982"
@@ -1662,27 +1662,22 @@
                         "spawnAnimation": "439",
                         "particles": "482",
                         "maxTargets": 20,
-                        "bulletMesh": "9",
-                        "bulletMaterial": "22"
+                        "bulletMesh": 3,
+                        "bulletMaterial": 3
                     }
                 }
             ],
             "name": "MouseSpawner",
             "scaling": [
                 0.2,
-                0.1999808,
-                0.1999818
+                0.1999804,
+                0.1999814
             ],
             "rotation": [
-                0.7071011,
+                0.7071006,
                 0.0,
                 0.0,
-                0.7071123
-            ],
-            "translation": [
-                -25.8049697,
-                4.76837158203125e-7,
-                8.5837411
+                0.7071129
             ]
         },
         "970": {
@@ -2474,27 +2469,22 @@
                         "spawnAnimation": "439",
                         "particles": "482",
                         "maxTargets": 20,
-                        "bulletMesh": "9",
-                        "bulletMaterial": "22"
+                        "bulletMesh": 3,
+                        "bulletMaterial": 3
                     }
                 }
             ],
             "name": "MouseSpawner",
             "scaling": [
                 0.2,
-                0.1999785,
-                0.1999796
+                0.1999804,
+                0.1999814
             ],
             "rotation": [
-                0.7070986,
+                0.7071006,
                 0.0,
                 0.0,
-                0.7071149
-            ],
-            "translation": [
-                23.9312839,
-                9.5367431640625e-7,
-                9.2442646
+                0.7071129
             ]
         }
     },

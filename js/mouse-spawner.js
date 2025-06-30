@@ -16,7 +16,7 @@ import { state } from "./game";
 import { MouseMover } from "./mouse-mover";
 import { ScoreTrigger } from "./score-trigger";
 /**
-@brief Spawns in mice at set intervals until maxTargets is reached.
+@brief Spawns waves of 6 mice per side (±X, ±Z). Após 6 spawns, escolhe um novo lado aleatório.
 */
 
 const tempQuat2 = new Float32Array(8);
@@ -24,16 +24,27 @@ const tempQuat2 = new Float32Array(8);
 export class MouseSpawner extends Component {
     static TypeName = "mouse-spawner";
     static Properties = {
-        targetMesh: { type: Type.Mesh },
-        targetMaterial: { type: Type.Material },
-        spawnAnimation: { type: Type.Animation },
-        particles: { type: Type.Object },
+        targetMesh:           { type: Type.Mesh },
+        targetMaterial:       { type: Type.Material },
+        spawnAnimation:       { type: Type.Animation },
+        particles:            { type: Type.Object },
         initialSpawnInterval: { type: Type.Float, default: 2.0 },
-        minSpawnInterval: { type: Type.Float, default: 0.5 },
+        minSpawnInterval:     { type: Type.Float, default: 0.5 },
         spawnIntervalDecreaseRate: { type: Type.Float, default: 0.95 },
-        bulletMesh: { type: Type.Mesh },
-        bulletMaterial: { type: Type.Material },
+        // Raio mínimo/ máximo para spawn
+        spawnRadiusMin:       { type: Type.Float, default: 15.0 },
+        spawnRadiusMax:       { type: Type.Float, default: 30.0 },
     };
+
+    time = 0;
+    spawnInterval = 1.2;
+    targets = [];
+
+    // Para controle de waves por lado
+    sides = ["+X", "-X", "+Z", "-Z"];
+    currentSide = null;
+    sideCount = 0;
+    waveNumber = 1;
 
     static onRegister(engine) {
         engine.registerComponent(ScoreTrigger);
@@ -41,12 +52,8 @@ export class MouseSpawner extends Component {
         // engine.registerComponent(MouseMover);
     }
 
-    time = 0;
-    spawnInterval = 2.0;
-    targets = [];
-    waveNumber = 1;
-
     init() {
+        // Função global para despawn
         state.despawnTarget = function (obj) {
             for (let i = 0; i < this.targets.length; i++) {
                 if (obj.objectId == this.targets[i].objectId) {
@@ -61,6 +68,7 @@ export class MouseSpawner extends Component {
     start() {
         state.mouseSpawner = this;
         this.spawnInterval = this.initialSpawnInterval;
+        this.pickNewSide();     // escolhe o primeiro lado
         this.spawnTarget();
     }
 
@@ -72,58 +80,86 @@ export class MouseSpawner extends Component {
             this.time = 0;
             this.spawnTarget();
             
-            // Decrease spawn interval until it hits the minimum
+            // Diminui o intervalo
             if (this.spawnInterval > this.minSpawnInterval) {
                 this.spawnInterval *= this.spawnIntervalDecreaseRate;
-            }
-            
-            // Increase wave number every 10 zombies
-            if (this.targets.length % 10 === 0) {
-                this.waveNumber++;
-                state.updateScore(`Wave ${this.waveNumber} - Zombies: ${this.targets.length}`);
             }
         }
     }
 
     reset() {
-        for (let i = 0; i < this.targets.length; i++) {
-            this.targets[i].destroy();
+        // Destroi todos os alvos atuais
+        for (let obj of this.targets) {
+            obj.destroy();
         }
         this.targets = [];
-        this.waveNumber = 1;
-        this.spawnInterval = this.initialSpawnInterval;
         this.time = 0;
+        this.spawnInterval = this.initialSpawnInterval;
+        this.waveNumber = 1;
+        this.sideCount = 0;
+        this.pickNewSide();
         this.object.resetPosition();
     }
 
+    pickNewSide() {
+        // Escolhe um lado aleatório (pode repetir)
+        const idx = Math.floor(Math.random() * this.sides.length);
+        this.currentSide = this.sides[idx];
+        this.sideCount = 0;
+        // Atualiza texto de wave
+        state.updateScore(`Wave ${this.waveNumber} – Lado ${this.currentSide}`);
+    }
 
     spawnTarget() {
-        // cria o objeto no mesmo ponto do spawner
+        // Se já geramos 6 no lado atual, passamos para o próximo
+        if (this.sideCount >= 6) {
+            this.waveNumber++;
+            this.pickNewSide();
+        }
+
+        // Cria o objeto no ponto do spawner
         const obj = this.engine.scene.addObject();
         obj.setTransformLocal(this.object.getTransformWorld(tempQuat2));
-    
-        // --- NOVO: calcula deslocamento aleatório no plano XZ ---
-        const angle = Math.random() * 2 * Math.PI;
-        const dist  = Math.random() * 5.0;
-        const dx    = Math.cos(angle) * dist;
-        const dz    = Math.sin(angle) * dist;
-        // aplica ao objeto
+
+        // Gera deslocamento com base no lado atual
+        const minR = this.spawnRadiusMin;
+        const maxR = this.spawnRadiusMax;
+        let dx = 0, dz = 0;
+
+        switch (this.currentSide) {
+            case "+X":
+                dx = minR + Math.random() * (maxR - minR);
+                dz = (Math.random() * 2 - 1) * maxR;
+                break;
+            case "-X":
+                dx = - (minR + Math.random() * (maxR - minR));
+                dz = (Math.random() * 2 - 1) * maxR;
+                break;
+            case "+Z":
+                dz = minR + Math.random() * (maxR - minR);
+                dx = (Math.random() * 2 - 1) * maxR;
+                break;
+            case "-Z":
+                dz = - (minR + Math.random() * (maxR - minR));
+                dx = (Math.random() * 2 - 1) * maxR;
+                break;
+        }
         obj.translateLocal([dx, 0, dz]);
-    
-        // escala, mesh, material etc.
-        obj.scaleLocal([1, 1, 1]);
+
+        // Configura mesh, material e escala
+        obj.scaleLocal([1,1,1]);
         const mesh = obj.addComponent("mesh");
         mesh.mesh     = this.targetMesh;
         mesh.material = this.targetMaterial;
         mesh.active   = true;
-    
-        // movimento
+
+        // Movimento
         obj.addComponent(MouseMover);
-    
-        // corrige rotação
-        obj.rotateAxisAngleDegLocal([1, 0, 0], 180);
-    
-        // animação de spawn
+
+        // Corrige rotação
+        obj.rotateAxisAngleDegLocal([1,0,0], 180);
+
+        // Animação de spawn
         if (this.spawnAnimation) {
             const anim = obj.addComponent("animation");
             anim.playCount = 1;
@@ -131,22 +167,24 @@ export class MouseSpawner extends Component {
             anim.active    = true;
             anim.play();
         }
-    
-        // gatilho de pontuação
+
+        // Gatilho de pontuação
         const trigger = this.engine.scene.addObject(obj);
         trigger.addComponent("collision", {
             collider: WL.Collider.Sphere,
-            extents:  [1.5, 1.5, 1.5],
+            extents:  [1.5,1.5,1.5],
             group:    1 << 0,
             active:   true,
         });
-        trigger.translateLocal([0, 1, 0]);
+        trigger.translateLocal([0,1,0]);
         trigger.addComponent(ScoreTrigger, {
             particles: this.particles
         });
-    
+
         obj.setDirty();
         this.targets.push(obj);
+
+        // Incrementa contador deste lado
+        this.sideCount++;
     }
-    
-};
+}

@@ -1320,7 +1320,7 @@
                 {
                     "type": "text",
                     "text": {
-                        "text": "Start"
+                        "text": "Play Again"
                     }
                 }
             ],
@@ -2447,45 +2447,6 @@
                 0.9999816
             ],
             "parent": "1003"
-        },
-        "1031": {
-            "link": {
-                "name": "Mouse",
-                "file": "assets\\uploads_files_3861195_Mouse_GLB.glb"
-            },
-            "components": [
-                {
-                    "active": true,
-                    "mesh": {
-                        "material": "996",
-                        "mesh": "982"
-                    }
-                },
-                {
-                    "type": "mouse-spawner",
-                    "mouse-spawner": {
-                        "targetMesh": "982",
-                        "targetMaterial": "996",
-                        "spawnAnimation": "439",
-                        "particles": "482",
-                        "maxTargets": 20,
-                        "bulletMesh": 3,
-                        "bulletMaterial": 3
-                    }
-                }
-            ],
-            "name": "MouseSpawner",
-            "scaling": [
-                0.2,
-                0.1999804,
-                0.1999814
-            ],
-            "rotation": [
-                0.7071006,
-                0.0,
-                0.0,
-                0.7071129
-            ]
         }
     },
     "meshes": {
