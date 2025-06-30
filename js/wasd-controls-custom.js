@@ -1,29 +1,17 @@
-/*
-    Copyright 2021. Futurewei Technologies Inc. All rights reserved.
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-    http:  www.apache.org/licenses/LICENSE-2.0
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-*/
 import { Component, Type } from "@wonderlandengine/api";
 import { vec3 } from "gl-matrix";
-/**
- * Basic movement with W/A/S/D keys.
- */
+
 export class WasdControlsCustom extends Component {
     static TypeName = "wasd-controls-custom";
     static Properties = {
-        /** Movement speed in m/s. */
         speed: { type: Type.Float, default: 0.1 },
-        /** Object of which the orientation is used to determine forward direction */
-        headObject: { type: Type.Object }
+        headObject: { type: Type.Object },
+        boundaryLimit: { type: Type.Float, default: 12.0 },
+        gravity: { type: Type.Float, default: 9.8 },
+        jumpForce: { type: Type.Float, default: 8.0 },
+        groundLevel: { type: Type.Float, default: 0.0 },
+        maxJumps: { type: Type.Int, default: 2 } // número de pulos extras permitidos no ar
     }
-
 
     init() {
         this.up = false;
@@ -31,96 +19,89 @@ export class WasdControlsCustom extends Component {
         this.down = false;
         this.left = false;
 
+        this.verticalVelocity = 0;
+        this.isJumping = false;
+        this.jumpsRemaining = this.maxJumps + 1; // 1 do chão + extras
+
+        this.centerPos = vec3.create();
+        if (this.headObject) {
+            this.headObject.getPositionLocal(this.centerPos);
+        }
+
         window.addEventListener('keydown', this.press.bind(this));
         window.addEventListener('keyup', this.release.bind(this));
     }
 
-    update() {
+    update(dt) {
+        if (!this.headObject) return;
 
-        if (this.up || this.right || this.down || this.left /* only move if key is pressed */) {
-            let direction = [0, 0, 0];
+        const direction = vec3.create();
 
-            let forwardVec = [];
-            this.object.getForward(forwardVec); /* Get player forward */
-            forwardVec[1] = 0; /* Ignore height */
-            let backVec = [0, 0, 0];
+        // Movimento horizontal
+        if (this.up || this.right || this.down || this.left) {
+            const forward = vec3.fromValues(0, 0, 0);
+            this.object.getForward(forward);
+            forward[1] = 0;
+            vec3.normalize(forward, forward);
+            vec3.scale(forward, forward, this.speed);
 
-            if (forwardVec[2] == 1 /* if z = +1 */) {
-                forwardVec[2] = this.speed;
-                backVec = [0, 0, -this.speed];
-            } else if (forwardVec[2] == -1 /* if z = -1 */) {
-                forwardVec[2] = -this.speed;
-                backVec = [0, 0, this.speed];
-            } else /* calculate for all other cases */ {
-                let angle = vec3.angle([0, 0, -1], forwardVec); /* Get angle relative to -Z */
+            const rightV = vec3.fromValues(0, 0, 0);
+            this.object.getRight(rightV);
+            rightV[1] = 0;
+            vec3.normalize(rightV, rightV);
+            vec3.scale(rightV, rightV, this.speed);
 
-                let xPolarity = -1;
-                let zPolarity = -1;
-
-                if (forwardVec[0] > 0) xPolarity = 1;
-                if (forwardVec[2] > 0) zPolarity = 1;
-
-                //set x-magnitude for forward and back
-                forwardVec[0] = xPolarity * Math.abs(Math.sin(angle)) * this.speed;
-                backVec[0] = -forwardVec[0];
-                //set z-magnitude for forward and back
-                forwardVec[2] = zPolarity * Math.abs(Math.cos(angle)) * this.speed;
-                backVec[2] = -forwardVec[2];
-            }
-            let rightVec = [];
-            this.object.getRight(rightVec);
-            rightVec[1] = 0;
-            let leftVec = [0, 0, 0];
-            if (rightVec[0] == 1) {
-                rightVec[0] = this.speed;
-                leftVec = [-this.speed, 0, 0];
-            } else if (rightVec[0] == -1) {
-                rightVec[0] = -this.speed;
-                leftVec = [this.speed, 0, 0];
-            } else {
-                let angle = vec3.angle([-1, 0, 0], rightVec);
-                let xPolarity = -1;
-                let zPolarity = -1;
-                //set x-magnitude for forward and back
-                if (rightVec[0] > 0) xPolarity = 1;
-                rightVec[0] = xPolarity * Math.abs(Math.cos(angle)) * this.speed;
-                leftVec[0] = -rightVec[0];
-                //set z-magnitude for forward and back
-                if (rightVec[2] > 0) zPolarity = 1;
-                rightVec[2] = zPolarity * Math.abs(Math.sin(angle)) * this.speed;
-                leftVec[2] = -rightVec[2];
-            }
-
-            if (this.up) vec3.add(direction, direction, forwardVec);
-            if (this.down) vec3.add(direction, direction, backVec);
-            if (this.left) vec3.add(direction, direction, leftVec);
-            if (this.right) vec3.add(direction, direction, rightVec);
-
-            this.headObject.translate(direction);
+            if (this.up) vec3.add(direction, direction, forward);
+            if (this.down) vec3.sub(direction, direction, forward);
+            if (this.right) vec3.add(direction, direction, rightV);
+            if (this.left) vec3.sub(direction, direction, rightV);
         }
+
+        const newPos = vec3.create();
+        this.headObject.getPositionLocal(newPos);
+        vec3.add(newPos, newPos, direction);
+
+        // Gravidade
+        this.verticalVelocity -= this.gravity * dt;
+        newPos[1] += this.verticalVelocity * dt;
+
+        // Chegou no chão
+        if (newPos[1] <= this.groundLevel) {
+            newPos[1] = this.groundLevel;
+            this.verticalVelocity = 0;
+            this.jumpsRemaining = this.maxJumps + 1; // reset ao tocar o chão
+            this.isJumping = false;
+        } else {
+            this.isJumping = true;
+        }
+
+        // Clamping X/Z
+        const minX = this.centerPos[0] - this.boundaryLimit;
+        const maxX = this.centerPos[0] + this.boundaryLimit;
+        const minZ = this.centerPos[2] - this.boundaryLimit;
+        const maxZ = this.centerPos[2] + this.boundaryLimit;
+        newPos[0] = Math.min(Math.max(newPos[0], minX), maxX);
+        newPos[2] = Math.min(Math.max(newPos[2], minZ), maxZ);
+
+        this.headObject.setPositionLocal(newPos);
     }
 
     press(e) {
-        if (e.keyCode === 38 /* up */ || e.keyCode === 87 /* w */ || e.keyCode === 90 /* z */) {
-            this.up = true
-        } else if (e.keyCode === 39 /* right */ || e.keyCode === 68 /* d */) {
-            this.right = true
-        } else if (e.keyCode === 40 /* down */ || e.keyCode === 83 /* s */) {
-            this.down = true
-        } else if (e.keyCode === 37 /* left */ || e.keyCode === 65 /* a */ || e.keyCode === 81 /* q */) {
-            this.left = true
+        if (e.keyCode === 38 || e.keyCode === 87 || e.keyCode === 90) this.up = true;
+        else if (e.keyCode === 39 || e.keyCode === 68) this.right = true;
+        else if (e.keyCode === 40 || e.keyCode === 83) this.down = true;
+        else if (e.keyCode === 37 || e.keyCode === 65 || e.keyCode === 81) this.left = true;
+        else if (e.keyCode === 32 && this.jumpsRemaining > 0) {
+            // Executa o pulo imediatamente se houver pulos disponíveis
+            this.verticalVelocity = this.jumpForce;
+            this.jumpsRemaining--;
         }
     }
 
     release(e) {
-        if (e.keyCode === 38 /* up */ || e.keyCode === 87 /* w */ || e.keyCode === 90 /* z */) {
-            this.up = false
-        } else if (e.keyCode === 39 /* right */ || e.keyCode === 68 /* d */) {
-            this.right = false
-        } else if (e.keyCode === 40 /* down */ || e.keyCode === 83 /* s */) {
-            this.down = false
-        } else if (e.keyCode === 37 /* left */ || e.keyCode === 65 /* a */ || e.keyCode === 81 /* q */) {
-            this.left = false
-        }
+        if (e.keyCode === 38 || e.keyCode === 87 || e.keyCode === 90) this.up = false;
+        else if (e.keyCode === 39 || e.keyCode === 68) this.right = false;
+        else if (e.keyCode === 40 || e.keyCode === 83) this.down = false;
+        else if (e.keyCode === 37 || e.keyCode === 65 || e.keyCode === 81) this.left = false;
     }
 };

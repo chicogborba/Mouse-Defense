@@ -30,7 +30,7 @@ export class MouseMover extends Component {
         if(state.gameOver || state.paused) return; // skip if game is over or paused
 
         // Get current speed from wave system
-        const currentSpeed = state.getWaveSpeed();
+        const currentSpeed = state.getWaveSpeed() ;
 
         // get current and player positions
         const currentPos = vec3.create();

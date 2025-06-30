@@ -31,7 +31,6 @@ import {PlayAgainButton} from './play-again-button.js';
 import {PlayerLocation} from './player-location.js';
 import {ScoreDisplay} from './score-display.js';
 import {ShotCounter} from './shot-counter.js';
-import {SpawnMover} from './spawn-mover.js';
 import {TeleportCustom} from './teleport-custom.js';
 import {WasdControlsCustom} from './wasd-controls-custom.js';
 /* wle:auto-imports:end */
@@ -120,7 +119,6 @@ engine.registerComponent(PlayAgainButton);
 engine.registerComponent(PlayerLocation);
 engine.registerComponent(ScoreDisplay);
 engine.registerComponent(ShotCounter);
-engine.registerComponent(SpawnMover);
 engine.registerComponent(TeleportCustom);
 engine.registerComponent(WasdControlsCustom);
 /* wle:auto-register:end */

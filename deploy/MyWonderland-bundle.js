@@ -12573,6 +12573,8 @@ var state = {
   firstShot: false,
   launch: null,
   paused: false,
+  isFirstGameOver: false,
+  zombieCount: 0,
   // Wave system properties
   currentWave: 1,
   zombiesKilledInWave: 0,
@@ -12596,7 +12598,7 @@ var state = {
     const speedMultiplier = 1 + (this.currentWave - 1) * this.waveProperties.speedIncreasePercent / 100;
     const speed = this.waveProperties.baseSpeed * speedMultiplier;
     console.log(`Wave ${this.currentWave} speed: ${speed.toFixed(2)} (multiplier: ${speedMultiplier.toFixed(2)})`);
-    return speed;
+    return speed * (this.zombieCount * 1e-3 + 1);
   },
   getRemainingZombies() {
     const total = this.getWaveZombieCount();
@@ -12637,6 +12639,7 @@ var state = {
   loseGame() {
     console.log("Game Over triggered");
     this.gameOver = true;
+    this.isFirstGameOver = true;
     if (this.mouseSound) {
       this.mouseSound.stop();
     }
@@ -12658,6 +12661,10 @@ var state = {
     if (this.mouseSpawner) {
       this.mouseSpawner.reset();
     }
+    if (this.isFirstGameOver) {
+      window.location.reload();
+    }
+    this.zombieCount = 0;
     this.victoryMusic.stop();
     this.gameOver = false;
     this.shotCount = 0;
@@ -12704,6 +12711,8 @@ var BulletPhysics = class extends Component3 {
       console.log("dt is NaN");
       return;
     }
+    if (this.scored)
+      return;
     this.object.getPositionWorld(this.position);
     if (this.position[1] <= state.floorHeight + this.collision.extents[0]) {
       this.destroyBullet(0);
@@ -12720,19 +12729,25 @@ var BulletPhysics = class extends Component3 {
     let overlaps = this.collision.queryOverlaps();
     for (let i = 0; i < overlaps.length; ++i) {
       let t = overlaps[i].object.getComponent("score-trigger");
-      if (t && !this.scored) {
-        t.onHit();
+      if (t) {
+        t.onHit(() => this.destroyBullet(0));
         this.destroyBullet(0);
-        return;
+        break;
       }
     }
   }
   destroyBullet(time) {
-    if (time == 0) {
-      this.object.destroy();
+    const meshComp = this.object.getComponent("mesh", 0);
+    if (meshComp)
+      meshComp.active = false;
+    if (this.collision)
+      this.collision.active = false;
+    this.object.active = false;
+    if (time === 0) {
+      this.engine.scene.removeObject(this.object);
     } else {
       setTimeout(() => {
-        this.object.destroy();
+        this.engine.scene.removeObject(this.object);
       }, time);
     }
   }
@@ -13346,7 +13361,23 @@ var ScoreTrigger = class extends Component3 {
       volume: 1.9
     });
   }
-  onHit() {
+  onHit(callback) {
+    if (typeof callback === "function") {
+      this.particles.setTransformWorld(
+        this.object.getTransformWorld(tempQuat23)
+      );
+      this.particles.getComponent("confetti-particles").burst();
+      state.zombiesKilledInWave++;
+      state.zombieCount++;
+      const elementPontos = document.getElementById("pontos-test");
+      if (elementPontos) {
+        elementPontos.innerHTML = state.zombieCount;
+      }
+      state.despawnTarget(this.object.parent);
+      callback();
+    } else {
+      console.log("Nenhum callback fornecido.");
+    }
     this.particles.setTransformWorld(this.object.getTransformWorld(tempQuat23));
     this.particles.getComponent("confetti-particles").burst();
     state.despawnTarget(this.object.parent);
@@ -13363,15 +13394,18 @@ __publicField(ScoreTrigger, "Properties", {
 // js/mouse-spawner.js
 var tempQuat24 = new Float32Array(8);
 var MouseSpawner = class extends Component3 {
+  time = 0;
+  spawnInterval = 1.2;
+  targets = [];
+  // Para controle de waves por lado
+  sides = ["+X", "-X", "+Z", "-Z"];
+  currentSide = null;
+  sideCount = 0;
+  waveNumber = 1;
   static onRegister(engine2) {
     engine2.registerComponent(ScoreTrigger);
     engine2.registerComponent(HowlerAudioSource);
-    engine2.registerComponent(MouseMover);
   }
-  time = 0;
-  spawnInterval = 2;
-  targets = [];
-  waveNumber = 1;
   init() {
     state.despawnTarget = function(obj) {
       for (let i = 0; i < this.targets.length; i++) {
@@ -13386,6 +13420,7 @@ var MouseSpawner = class extends Component3 {
   start() {
     state.mouseSpawner = this;
     this.spawnInterval = this.initialSpawnInterval;
+    this.pickNewSide();
     this.spawnTarget();
   }
   update(dt) {
@@ -13398,25 +13433,55 @@ var MouseSpawner = class extends Component3 {
       if (this.spawnInterval > this.minSpawnInterval) {
         this.spawnInterval *= this.spawnIntervalDecreaseRate;
       }
-      if (this.targets.length % 10 === 0) {
-        this.waveNumber++;
-        state.updateScore(`Wave ${this.waveNumber} - Zombies: ${this.targets.length}`);
-      }
     }
   }
   reset() {
-    for (let i = 0; i < this.targets.length; i++) {
-      this.targets[i].destroy();
+    for (let obj of this.targets) {
+      obj.destroy();
     }
     this.targets = [];
-    this.waveNumber = 1;
-    this.spawnInterval = this.initialSpawnInterval;
     this.time = 0;
+    this.spawnInterval = this.initialSpawnInterval;
+    this.waveNumber = 1;
+    this.sideCount = 0;
+    this.pickNewSide();
     this.object.resetPosition();
   }
+  pickNewSide() {
+    const idx = Math.floor(Math.random() * this.sides.length);
+    this.currentSide = this.sides[idx];
+    this.sideCount = 0;
+    state.updateScore(`Wave ${this.waveNumber} \u2013 Lado ${this.currentSide}`);
+  }
   spawnTarget() {
+    if (this.sideCount >= 6) {
+      this.waveNumber++;
+      this.pickNewSide();
+    }
     const obj = this.engine.scene.addObject();
     obj.setTransformLocal(this.object.getTransformWorld(tempQuat24));
+    const minR = this.spawnRadiusMin;
+    const maxR = this.spawnRadiusMax;
+    let dx = 0, dz = 0;
+    switch (this.currentSide) {
+      case "+X":
+        dx = minR + Math.random() * (maxR - minR);
+        dz = (Math.random() * 2 - 1) * maxR;
+        break;
+      case "-X":
+        dx = -(minR + Math.random() * (maxR - minR));
+        dz = (Math.random() * 2 - 1) * maxR;
+        break;
+      case "+Z":
+        dz = minR + Math.random() * (maxR - minR);
+        dx = (Math.random() * 2 - 1) * maxR;
+        break;
+      case "-Z":
+        dz = -(minR + Math.random() * (maxR - minR));
+        dx = (Math.random() * 2 - 1) * maxR;
+        break;
+    }
+    obj.translateLocal([dx, 0, dz]);
     obj.scaleLocal([1, 1, 1]);
     const mesh = obj.addComponent("mesh");
     mesh.mesh = this.targetMesh;
@@ -13444,6 +13509,7 @@ var MouseSpawner = class extends Component3 {
     });
     obj.setDirty();
     this.targets.push(obj);
+    this.sideCount++;
   }
 };
 __publicField(MouseSpawner, "TypeName", "mouse-spawner");
@@ -13455,8 +13521,9 @@ __publicField(MouseSpawner, "Properties", {
   initialSpawnInterval: { type: Type.Float, default: 2 },
   minSpawnInterval: { type: Type.Float, default: 0.5 },
   spawnIntervalDecreaseRate: { type: Type.Float, default: 0.95 },
-  bulletMesh: { type: Type.Mesh },
-  bulletMaterial: { type: Type.Material }
+  // Raio mínimo/ máximo para spawn
+  spawnRadiusMin: { type: Type.Float, default: 15 },
+  spawnRadiusMax: { type: Type.Float, default: 30 }
 });
 
 // js/play-again-button.js
@@ -13572,56 +13639,6 @@ var ShotCounter = class extends Component3 {
 };
 __publicField(ShotCounter, "TypeName", "shot-counter");
 __publicField(ShotCounter, "Properties", {});
-
-// js/spawn-mover.js
-var SpawnMover = class extends Component3 {
-  init() {
-    this.time = 0;
-    this.currentPos = [0, 0, 0];
-    this.pointA = [0, 0, 0];
-    this.pointB = [0, 0, 0];
-    this.moveDuration = 1;
-    this.speed = 3;
-    this.travelDistance = this.moveDuration * this.speed;
-    quat2_exports.getTranslation(this.currentPos, this.object.transformLocal);
-    vec3_exports.add(this.pointA, this.pointA, this.currentPos);
-    vec3_exports.add(this.pointB, this.currentPos, [0, 0, 1.5]);
-  }
-  update(dt) {
-    if (isNaN(dt))
-      return;
-    this.time += dt;
-    if (this.time >= this.moveDuration) {
-      this.time -= this.moveDuration;
-      this.pointA = this.currentPos;
-      let x = Math.random() * this.travelDistance;
-      let z = Math.sqrt(Math.pow(this.travelDistance, 2) - Math.pow(x, 2));
-      let distanceFromOrigin = vec3_exports.length(this.pointA);
-      if (distanceFromOrigin > 20) {
-        if (this.pointA[0] >= 14) {
-          x *= -1;
-        }
-        if (this.pointA[2] >= 14) {
-          z *= -1;
-        }
-      } else {
-        const randomNegative1 = Math.round(Math.random()) * 2 - 1;
-        const randomNegative2 = Math.round(Math.random()) * 2 - 1;
-        x *= randomNegative1;
-        z *= randomNegative2;
-      }
-      vec3_exports.add(this.pointB, this.pointA, [x, 0, z]);
-    }
-    this.object.resetPosition();
-    vec3_exports.lerp(this.currentPos, this.pointA, this.pointB, this.time);
-    this.object.translateLocal(this.currentPos);
-  }
-};
-__publicField(SpawnMover, "TypeName", "spawn-mover");
-__publicField(SpawnMover, "Properties", {
-  speed: { type: Type.Float, default: 1 }
-  // targetObject: {type: Type.Object},
-});
 
 // js/teleport-custom.js
 var TeleportCustom = class extends Component3 {
@@ -13796,98 +13813,96 @@ var WasdControlsCustom = class extends Component3 {
     this.right = false;
     this.down = false;
     this.left = false;
+    this.verticalVelocity = 0;
+    this.isJumping = false;
+    this.jumpsRemaining = this.maxJumps + 1;
+    this.centerPos = vec3_exports.create();
+    if (this.headObject) {
+      this.headObject.getPositionLocal(this.centerPos);
+    }
     window.addEventListener("keydown", this.press.bind(this));
     window.addEventListener("keyup", this.release.bind(this));
   }
-  update() {
+  update(dt) {
+    if (!this.headObject)
+      return;
+    const direction2 = vec3_exports.create();
     if (this.up || this.right || this.down || this.left) {
-      let direction2 = [0, 0, 0];
-      let forwardVec = [];
-      this.object.getForward(forwardVec);
-      forwardVec[1] = 0;
-      let backVec = [0, 0, 0];
-      if (forwardVec[2] == 1) {
-        forwardVec[2] = this.speed;
-        backVec = [0, 0, -this.speed];
-      } else if (forwardVec[2] == -1) {
-        forwardVec[2] = -this.speed;
-        backVec = [0, 0, this.speed];
-      } else {
-        let angle2 = vec3_exports.angle([0, 0, -1], forwardVec);
-        let xPolarity = -1;
-        let zPolarity = -1;
-        if (forwardVec[0] > 0)
-          xPolarity = 1;
-        if (forwardVec[2] > 0)
-          zPolarity = 1;
-        forwardVec[0] = xPolarity * Math.abs(Math.sin(angle2)) * this.speed;
-        backVec[0] = -forwardVec[0];
-        forwardVec[2] = zPolarity * Math.abs(Math.cos(angle2)) * this.speed;
-        backVec[2] = -forwardVec[2];
-      }
-      let rightVec = [];
-      this.object.getRight(rightVec);
-      rightVec[1] = 0;
-      let leftVec = [0, 0, 0];
-      if (rightVec[0] == 1) {
-        rightVec[0] = this.speed;
-        leftVec = [-this.speed, 0, 0];
-      } else if (rightVec[0] == -1) {
-        rightVec[0] = -this.speed;
-        leftVec = [this.speed, 0, 0];
-      } else {
-        let angle2 = vec3_exports.angle([-1, 0, 0], rightVec);
-        let xPolarity = -1;
-        let zPolarity = -1;
-        if (rightVec[0] > 0)
-          xPolarity = 1;
-        rightVec[0] = xPolarity * Math.abs(Math.cos(angle2)) * this.speed;
-        leftVec[0] = -rightVec[0];
-        if (rightVec[2] > 0)
-          zPolarity = 1;
-        rightVec[2] = zPolarity * Math.abs(Math.sin(angle2)) * this.speed;
-        leftVec[2] = -rightVec[2];
-      }
+      const forward = vec3_exports.fromValues(0, 0, 0);
+      this.object.getForward(forward);
+      forward[1] = 0;
+      vec3_exports.normalize(forward, forward);
+      vec3_exports.scale(forward, forward, this.speed);
+      const rightV = vec3_exports.fromValues(0, 0, 0);
+      this.object.getRight(rightV);
+      rightV[1] = 0;
+      vec3_exports.normalize(rightV, rightV);
+      vec3_exports.scale(rightV, rightV, this.speed);
       if (this.up)
-        vec3_exports.add(direction2, direction2, forwardVec);
+        vec3_exports.add(direction2, direction2, forward);
       if (this.down)
-        vec3_exports.add(direction2, direction2, backVec);
-      if (this.left)
-        vec3_exports.add(direction2, direction2, leftVec);
+        vec3_exports.sub(direction2, direction2, forward);
       if (this.right)
-        vec3_exports.add(direction2, direction2, rightVec);
-      this.headObject.translate(direction2);
+        vec3_exports.add(direction2, direction2, rightV);
+      if (this.left)
+        vec3_exports.sub(direction2, direction2, rightV);
     }
+    const newPos = vec3_exports.create();
+    this.headObject.getPositionLocal(newPos);
+    vec3_exports.add(newPos, newPos, direction2);
+    this.verticalVelocity -= this.gravity * dt;
+    newPos[1] += this.verticalVelocity * dt;
+    if (newPos[1] <= this.groundLevel) {
+      newPos[1] = this.groundLevel;
+      this.verticalVelocity = 0;
+      this.jumpsRemaining = this.maxJumps + 1;
+      this.isJumping = false;
+    } else {
+      this.isJumping = true;
+    }
+    const minX = this.centerPos[0] - this.boundaryLimit;
+    const maxX = this.centerPos[0] + this.boundaryLimit;
+    const minZ = this.centerPos[2] - this.boundaryLimit;
+    const maxZ = this.centerPos[2] + this.boundaryLimit;
+    newPos[0] = Math.min(Math.max(newPos[0], minX), maxX);
+    newPos[2] = Math.min(Math.max(newPos[2], minZ), maxZ);
+    this.headObject.setPositionLocal(newPos);
   }
   press(e) {
-    if (e.keyCode === 38 || e.keyCode === 87 || e.keyCode === 90) {
+    if (e.keyCode === 38 || e.keyCode === 87 || e.keyCode === 90)
       this.up = true;
-    } else if (e.keyCode === 39 || e.keyCode === 68) {
+    else if (e.keyCode === 39 || e.keyCode === 68)
       this.right = true;
-    } else if (e.keyCode === 40 || e.keyCode === 83) {
+    else if (e.keyCode === 40 || e.keyCode === 83)
       this.down = true;
-    } else if (e.keyCode === 37 || e.keyCode === 65 || e.keyCode === 81) {
+    else if (e.keyCode === 37 || e.keyCode === 65 || e.keyCode === 81)
       this.left = true;
+    else if (e.keyCode === 32 && this.jumpsRemaining > 0) {
+      this.verticalVelocity = this.jumpForce;
+      this.jumpsRemaining--;
     }
   }
   release(e) {
-    if (e.keyCode === 38 || e.keyCode === 87 || e.keyCode === 90) {
+    if (e.keyCode === 38 || e.keyCode === 87 || e.keyCode === 90)
       this.up = false;
-    } else if (e.keyCode === 39 || e.keyCode === 68) {
+    else if (e.keyCode === 39 || e.keyCode === 68)
       this.right = false;
-    } else if (e.keyCode === 40 || e.keyCode === 83) {
+    else if (e.keyCode === 40 || e.keyCode === 83)
       this.down = false;
-    } else if (e.keyCode === 37 || e.keyCode === 65 || e.keyCode === 81) {
+    else if (e.keyCode === 37 || e.keyCode === 65 || e.keyCode === 81)
       this.left = false;
-    }
   }
 };
 __publicField(WasdControlsCustom, "TypeName", "wasd-controls-custom");
 __publicField(WasdControlsCustom, "Properties", {
-  /** Movement speed in m/s. */
   speed: { type: Type.Float, default: 0.1 },
-  /** Object of which the orientation is used to determine forward direction */
-  headObject: { type: Type.Object }
+  headObject: { type: Type.Object },
+  boundaryLimit: { type: Type.Float, default: 12 },
+  gravity: { type: Type.Float, default: 9.8 },
+  jumpForce: { type: Type.Float, default: 8 },
+  groundLevel: { type: Type.Float, default: 0 },
+  maxJumps: { type: Type.Int, default: 2 }
+  // número de pulos extras permitidos no ar
 });
 
 // js/index.js
@@ -13959,7 +13974,6 @@ engine.registerComponent(PlayAgainButton);
 engine.registerComponent(PlayerLocation);
 engine.registerComponent(ScoreDisplay);
 engine.registerComponent(ShotCounter);
-engine.registerComponent(SpawnMover);
 engine.registerComponent(TeleportCustom);
 engine.registerComponent(WasdControlsCustom);
 engine.scene.load(`${Constants.ProjectName}.bin`);

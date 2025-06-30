@@ -60,21 +60,16 @@
                     "active": true
                 }
             ],
-            "translation": [
-                2.9769601,
-                2.384185791015625e-7,
-                2.0148322
+            "scaling": [
+                60.0,
+                60.0000267,
+                60.0000038
             ],
             "rotation": [
                 -0.707264,
                 0.0,
                 0.0,
                 0.7069494
-            ],
-            "scaling": [
-                60.0,
-                60.0000267,
-                60.0000038
             ]
         },
         "17": {
@@ -233,12 +228,6 @@
                 -0.0117514,
                 0.0008869,
                 0.0161192
-            ],
-            "rotation": [
-                -0.0,
-                0.7316615,
-                0.6816681,
-                3.196286257889369e-8
             ],
             "scaling": [
                 0.9999998,
@@ -630,11 +619,12 @@
                         "cursorObject": "126",
                         "friction": 0.5,
                         "turnAngle": 60.0,
-                        "gravity": 10.0,
+                        "gravity": 20.0,
                         "moveSpeed": 2.0,
                         "horizontalForceMultiplier": 10.0,
-                        "maxBlowDuration": 1.0,
-                        "turnSpeedMultiplier": 5.0
+                        "maxBlowDuration": 0.5,
+                        "turnSpeedMultiplier": 5.0,
+                        "maxAirJumps": 2
                     }
                 }
             ],
@@ -1651,159 +1641,6 @@
                 1.0000044
             ]
         },
-        "730": {
-            "link": {
-                "name": "windmill",
-                "file": "models\\farm\\uploads_files_2156679_farm.gltf"
-            },
-            "parent": "772",
-            "translation": [
-                14.3795557,
-                0.3683118,
-                -13.9868984
-            ],
-            "rotation": [
-                0.6247548,
-                -0.3311828,
-                0.3311842,
-                0.624753
-            ],
-            "scaling": [
-                0.0419736,
-                0.4500722,
-                0.0055593
-            ]
-        },
-        "731": {
-            "link": {
-                "name": "object3",
-                "file": "models\\farm\\uploads_files_2156679_farm.gltf"
-            },
-            "parent": "772",
-            "name": "GateFence",
-            "translation": [
-                2.4648766,
-                0.4939031,
-                15.2204427
-            ],
-            "rotation": [
-                0.0,
-                1.0,
-                0.0,
-                -1.629207417863654e-7
-            ],
-            "scaling": [
-                0.2333862,
-                2.5509233,
-                0.3531371
-            ]
-        },
-        "732": {
-            "link": {
-                "name": "Cube.014",
-                "file": "models\\farm\\uploads_files_2156679_farm.gltf"
-            },
-            "parent": "772",
-            "name": "FarmFences",
-            "components": [
-                {
-                    "mesh": {
-                        "material": "521"
-                    }
-                },
-                {
-                    "active": true
-                }
-            ],
-            "translation": [
-                2.6194677,
-                1.097275,
-                1.3452991
-            ],
-            "rotation": [
-                0.0,
-                1.0,
-                0.0,
-                -1.6292079862978428e-7
-            ],
-            "scaling": [
-                0.2452231,
-                2.4336197,
-                0.4567871
-            ]
-        },
-        "751": {
-            "link": {
-                "name": "Plane.001",
-                "file": "models\\farm\\uploads_files_2156679_farm.gltf"
-            },
-            "parent": "772",
-            "name": "FarmPlane",
-            "translation": [
-                0.0,
-                -0.97,
-                -2.0722937
-            ],
-            "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-            ],
-            "scaling": [
-                3.0871233,
-                1.0,
-                3.0871233
-            ]
-        },
-        "753": {
-            "link": {
-                "name": "object2",
-                "file": "models\\farm\\uploads_files_2156679_farm.gltf"
-            },
-            "parent": "772",
-            "name": "Gate",
-            "translation": [
-                2.4816784,
-                0.2783944,
-                14.9548416
-            ],
-            "rotation": [
-                0.0,
-                1.0,
-                0.0,
-                -1.6292079862978428e-7
-            ],
-            "scaling": [
-                0.2452231,
-                2.4841971,
-                0.3531371
-            ]
-        },
-        "772": {
-            "name": "Farm",
-            "components": [
-                {
-                    "type": "collision"
-                }
-            ],
-            "translation": [
-                0.0,
-                -0.3,
-                0.0
-            ],
-            "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-            ],
-            "scaling": [
-                1.0,
-                1.0,
-                1.0
-            ]
-        },
         "909": {
             "link": {
                 "name": "Mouse",
@@ -1811,7 +1648,7 @@
             },
             "components": [
                 {
-                    "active": false,
+                    "active": true,
                     "mesh": {
                         "material": "996",
                         "mesh": "982"
@@ -1825,34 +1662,42 @@
                         "spawnAnimation": "439",
                         "particles": "482",
                         "maxTargets": 20,
-                        "bulletMesh": "9",
-                        "bulletMaterial": "22"
+                        "bulletMesh": 3,
+                        "bulletMaterial": 3
                     }
-                },
-                {
-                    "type": "spawn-mover"
                 }
             ],
             "name": "MouseSpawner",
-            "translation": [
-                -3.0,
-                4.76837158203125e-7,
-                -3.0
-            ],
-            "rotation": [
-                0.7071068,
-                0.0,
-                0.0,
-                0.7071067
-            ],
             "scaling": [
                 0.2,
-                0.1999848,
-                0.1999859
+                0.1999804,
+                0.1999814
+            ],
+            "rotation": [
+                0.7071006,
+                0.0,
+                0.0,
+                0.7071129
             ]
         },
         "970": {
-            "name": "Scoreboard"
+            "name": "Scoreboard",
+            "translation": [
+                0.0,
+                1.2647973,
+                0.0
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ]
         },
         "971": {
             "name": "ScoreText",
@@ -1869,10 +1714,10 @@
                     "type": "score-display"
                 }
             ],
-            "translation": [
-                0.0,
-                2.3104021,
-                0.0
+            "scaling": [
+                0.2,
+                0.2,
+                0.2
             ],
             "rotation": [
                 0.0,
@@ -1880,10 +1725,10 @@
                 0.0,
                 1.0
             ],
-            "scaling": [
-                1.5,
-                1.5,
-                1.5
+            "translation": [
+                0.0163903,
+                1.8593227,
+                4.0734233
             ]
         },
         "972": {
@@ -1901,10 +1746,10 @@
                     "type": "shot-counter"
                 }
             ],
-            "translation": [
-                0.0,
-                1.9985342,
-                0.0
+            "scaling": [
+                0.2,
+                0.2,
+                0.2
             ],
             "rotation": [
                 0.0,
@@ -1912,10 +1757,10 @@
                 0.0,
                 1.0
             ],
-            "scaling": [
-                1.5,
-                1.5,
-                1.5
+            "translation": [
+                0.0199566,
+                1.8341934,
+                4.0704011
             ]
         },
         "981": {
@@ -2048,6 +1893,560 @@
                 1.0,
                 1.0
             ]
+        },
+        "1002": {
+            "link": {
+                "name": "Node",
+                "file": "assets\\Propeller.glb"
+            },
+            "parent": "130",
+            "translation": [
+                -8.011497243387566e-7,
+                0.0,
+                0.000001
+            ],
+            "rotation": [
+                -4.331257628109597e-7,
+                1.0,
+                -3.139164732601785e-7,
+                0.0
+            ],
+            "scaling": [
+                0.0299999,
+                0.0300002,
+                0.0299999
+            ]
+        },
+        "1003": {
+            "link": {
+                "name": "RootNode",
+                "file": "assets\\City Builder Bits\\Building-g15lpKh4li.glb"
+            },
+            "name": "Buildings",
+            "translation": [
+                -2.3702249,
+                0.0,
+                1.259921
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        "1004": {
+            "link": {
+                "name": "building_C<RootNode",
+                "file": "assets\\City Builder Bits\\Building-g15lpKh4li.glb"
+            },
+            "parent": "1003",
+            "translation": [
+                12.5629701,
+                -0.0,
+                16.8205375
+            ],
+            "rotation": [
+                7.549790126404332e-8,
+                1.0,
+                3.139162174647936e-7,
+                0.0
+            ],
+            "scaling": [
+                300.0,
+                300.0006713,
+                300.0001831
+            ]
+        },
+        "1006": {
+            "link": {
+                "name": "building_F<RootNode",
+                "file": "assets\\City Builder Bits\\Building-T3oyvK6VEU.glb"
+            },
+            "parent": "1003",
+            "translation": [
+                7.3093237,
+                0.0,
+                16.8178977
+            ],
+            "rotation": [
+                7.549790836947069e-8,
+                1.0,
+                -9.735351369499769e-8,
+                0.0
+            ],
+            "scaling": [
+                300.0,
+                300.0002136,
+                300.0
+            ]
+        },
+        "1008": {
+            "link": {
+                "name": "building_E<RootNode",
+                "file": "assets\\City Builder Bits\\Building-qOhhGLftam.glb"
+            },
+            "parent": "1003",
+            "scaling": [
+                299.9996948,
+                300.0,
+                299.9996948
+            ],
+            "translation": [
+                1.230983,
+                -0.0,
+                16.8427505
+            ],
+            "rotation": [
+                7.549790836947069e-8,
+                1.0,
+                -6.715647486998932e-7,
+                -0.0
+            ]
+        },
+        "1010": {
+            "link": {
+                "name": "building_A<RootNode",
+                "file": "assets\\City Builder Bits\\Building.glb"
+            },
+            "parent": "1003",
+            "scaling": [
+                299.9990844,
+                300.0,
+                299.9991149
+            ],
+            "translation": [
+                -4.250626,
+                0.00001,
+                16.8307056
+            ],
+            "rotation": [
+                -7.54979225803254e-8,
+                1.0,
+                -7.541544277955836e-8,
+                -0.0
+            ]
+        },
+        "1012": {
+            "link": {
+                "name": "building_B<RootNode",
+                "file": "assets\\City Builder Bits\\Building B.glb"
+            },
+            "parent": "1003",
+            "scaling": [
+                300.0001831,
+                300.0,
+                300.0002136
+            ],
+            "translation": [
+                -8.6320924,
+                -0.0,
+                16.8711509
+            ],
+            "rotation": [
+                -7.549790126404332e-8,
+                1.0,
+                7.550039526904585e-8,
+                -0.0
+            ]
+        },
+        "1009": {
+            "link": {
+                "name": "building_C<RootNode",
+                "file": "assets\\City Builder Bits\\Building-g15lpKh4li.glb"
+            },
+            "parent": "1003",
+            "translation": [
+                -8.1274194,
+                0.0000033,
+                -11.6472749
+            ],
+            "rotation": [
+                9.78017396846553e-7,
+                0.0048772,
+                1.0099002523134004e-8,
+                0.999988
+            ],
+            "scaling": [
+                300.0,
+                300.0006713,
+                300.0003662
+            ]
+        },
+        "1007": {
+            "link": {
+                "name": "building_F<RootNode",
+                "file": "assets\\City Builder Bits\\Building-T3oyvK6VEU.glb"
+            },
+            "parent": "1003",
+            "translation": [
+                -2.874041,
+                0.0000033,
+                -11.6959323
+            ],
+            "rotation": [
+                1.3931339992723224e-7,
+                0.0048774,
+                2.6534724639759588e-8,
+                0.9999881
+            ],
+            "scaling": [
+                300.0000915,
+                300.0002136,
+                300.0000915
+            ]
+        },
+        "1005": {
+            "link": {
+                "name": "building_E<RootNode",
+                "file": "assets\\City Builder Bits\\Building-qOhhGLftam.glb"
+            },
+            "parent": "1003",
+            "scaling": [
+                299.9996337,
+                300.0,
+                299.9995422
+            ],
+            "translation": [
+                3.2037107,
+                0.0000033,
+                -11.780097
+            ],
+            "rotation": [
+                0.000001,
+                0.0048769,
+                1.4778271406612478e-7,
+                0.9999881
+            ]
+        },
+        "1017": {
+            "link": {
+                "name": "building_A<RootNode",
+                "file": "assets\\City Builder Bits\\Building.glb"
+            },
+            "parent": "1003",
+            "scaling": [
+                299.9987487,
+                300.0,
+                299.9990539
+            ],
+            "translation": [
+                8.6851453,
+                0.0000135,
+                -11.8215398
+            ],
+            "rotation": [
+                -2.701070513921877e-7,
+                0.0048774,
+                -4.229029570979037e-8,
+                0.9999881
+            ]
+        },
+        "1018": {
+            "link": {
+                "name": "building_B<RootNode",
+                "file": "assets\\City Builder Bits\\Building B.glb"
+            },
+            "parent": "1003",
+            "scaling": [
+                300.0,
+                300.0,
+                300.0001831
+            ],
+            "translation": [
+                13.0659646,
+                0.0000033,
+                -11.9047079
+            ],
+            "rotation": [
+                2.967267391795758e-7,
+                0.0048772,
+                -9.41150517519418e-8,
+                0.999988
+            ]
+        },
+        "1019": {
+            "link": {
+                "name": "building_C<RootNode",
+                "file": "assets\\City Builder Bits\\Building-g15lpKh4li.glb"
+            },
+            "parent": "1003",
+            "translation": [
+                -11.8309202,
+                0.000007,
+                12.3766679
+            ],
+            "rotation": [
+                9.79478841145465e-7,
+                0.7067383,
+                -4.831733235732827e-7,
+                0.707475
+            ],
+            "scaling": [
+                299.9995422,
+                300.0006713,
+                300.0001831
+            ]
+        },
+        "1020": {
+            "link": {
+                "name": "building_F<RootNode",
+                "file": "assets\\City Builder Bits\\Building-T3oyvK6VEU.glb"
+            },
+            "parent": "1003",
+            "translation": [
+                -11.8225841,
+                0.000007,
+                7.1230001
+            ],
+            "rotation": [
+                2.5710858153615845e-7,
+                0.7067276,
+                7.722381667463196e-8,
+                0.7074857
+            ],
+            "scaling": [
+                299.9999694,
+                300.0002136,
+                299.9998168
+            ]
+        },
+        "1021": {
+            "link": {
+                "name": "building_E<RootNode",
+                "file": "assets\\City Builder Bits\\Building-qOhhGLftam.glb"
+            },
+            "parent": "1003",
+            "scaling": [
+                299.9995422,
+                300.0,
+                299.9993896
+            ],
+            "translation": [
+                -11.84099,
+                0.000007,
+                1.0447168
+            ],
+            "rotation": [
+                0.0000016,
+                0.7067377,
+                -0.0000015,
+                0.7074756
+            ]
+        },
+        "1022": {
+            "link": {
+                "name": "building_A<RootNode",
+                "file": "assets\\City Builder Bits\\Building.glb"
+            },
+            "parent": "1003",
+            "scaling": [
+                299.9987487,
+                300.0,
+                299.9991149
+            ],
+            "translation": [
+                -11.8230161,
+                0.0000172,
+                -4.4368805
+            ],
+            "rotation": [
+                -3.599122067043936e-7,
+                0.7067383,
+                0.000001,
+                0.707475
+            ]
+        },
+        "1023": {
+            "link": {
+                "name": "building_B<RootNode",
+                "file": "assets\\City Builder Bits\\Building B.glb"
+            },
+            "parent": "1003",
+            "scaling": [
+                299.9998168,
+                300.0,
+                299.9999084
+            ],
+            "translation": [
+                -11.8587274,
+                0.000007,
+                -8.8183822
+            ],
+            "rotation": [
+                3.5566139899856353e-7,
+                0.7067407,
+                -5.140499865774473e-7,
+                0.7074726
+            ]
+        },
+        "1024": {
+            "link": {
+                "name": "RootNode",
+                "file": "assets\\City Builder Bits\\Building-g15lpKh4li.glb"
+            },
+            "name": "Buildings",
+            "translation": [
+                4.1522879,
+                0.000007,
+                -0.1690248
+            ],
+            "rotation": [
+                1.1708944924748721e-8,
+                -0.7074879,
+                7.915264177427161e-7,
+                0.7067254
+            ],
+            "scaling": [
+                0.9999759,
+                1.0,
+                0.9999828
+            ],
+            "parent": "1003"
+        },
+        "1025": {
+            "link": {
+                "name": "building_C<RootNode",
+                "file": "assets\\City Builder Bits\\Building-g15lpKh4li.glb"
+            },
+            "parent": "1003",
+            "translation": [
+                16.9930706,
+                0.000007,
+                -9.9607076
+            ],
+            "rotation": [
+                3.351156010467094e-7,
+                -0.7129424,
+                7.171025799834752e-7,
+                0.7012225
+            ],
+            "scaling": [
+                299.9999694,
+                300.0006713,
+                300.0008239
+            ]
+        },
+        "1026": {
+            "link": {
+                "name": "building_F<RootNode",
+                "file": "assets\\City Builder Bits\\Building-T3oyvK6VEU.glb"
+            },
+            "parent": "1003",
+            "translation": [
+                16.9029979,
+                0.000007,
+                -4.7076416
+            ],
+            "rotation": [
+                -8.561429467590642e-7,
+                -0.7129583,
+                -4.366559664958914e-7,
+                0.7012064
+            ],
+            "scaling": [
+                299.996582,
+                300.0002136,
+                299.9962768
+            ]
+        },
+        "1027": {
+            "link": {
+                "name": "building_E<RootNode",
+                "file": "assets\\City Builder Bits\\Building-qOhhGLftam.glb"
+            },
+            "parent": "1003",
+            "scaling": [
+                299.9991149,
+                300.0,
+                299.9989929
+            ],
+            "translation": [
+                16.8269958,
+                0.000007,
+                1.3701596
+            ],
+            "rotation": [
+                0.0000018,
+                -0.7129423,
+                0.000002,
+                0.7012227
+            ]
+        },
+        "1028": {
+            "link": {
+                "name": "building_A<RootNode",
+                "file": "assets\\City Builder Bits\\Building.glb"
+            },
+            "parent": "1003",
+            "scaling": [
+                299.9989318,
+                300.0,
+                299.999176
+            ],
+            "translation": [
+                16.7238159,
+                0.0000172,
+                6.8508596
+            ],
+            "rotation": [
+                -0.0000018,
+                -0.712942,
+                -0.0000017,
+                0.7012229
+            ]
+        },
+        "1029": {
+            "link": {
+                "name": "building_B<RootNode",
+                "file": "assets\\City Builder Bits\\Building B.glb"
+            },
+            "parent": "1003",
+            "scaling": [
+                299.9996337,
+                300.0,
+                300.0001831
+            ],
+            "translation": [
+                16.6914978,
+                0.000007,
+                11.2324008
+            ],
+            "rotation": [
+                5.448693514154002e-7,
+                -0.712943,
+                6.773153700123657e-7,
+                0.701222
+            ]
+        },
+        "1030": {
+            "link": {
+                "name": "RootNode",
+                "file": "assets\\City Builder Bits\\Building-g15lpKh4li.glb"
+            },
+            "name": "Buildings",
+            "translation": [
+                0.8167635,
+                0.000007,
+                2.3351643
+            ],
+            "rotation": [
+                0.0000019,
+                0.7012084,
+                9.014252668748668e-7,
+                0.7129563
+            ],
+            "scaling": [
+                0.9999755,
+                1.0,
+                0.9999816
+            ],
+            "parent": "1003"
         }
     },
     "meshes": {
@@ -3442,6 +3841,64 @@
             "importScaling": 100.0,
             "simplify": true,
             "simplifyTarget": 0.5
+        },
+        "983": {
+            "link": {
+                "name": "Node-Mesh",
+                "file": "assets\\Propeller.glb"
+            }
+        },
+        "984": {
+            "link": {
+                "name": "Node-Mesh.0",
+                "file": "assets\\Propeller.glb"
+            }
+        },
+        "985": {
+            "link": {
+                "name": "Node-Mesh.1",
+                "file": "assets\\Propeller.glb"
+            }
+        },
+        "986": {
+            "link": {
+                "name": "building_C",
+                "file": "assets\\City Builder Bits\\Building-g15lpKh4li.glb"
+            },
+            "simplifyTarget": 0.1,
+            "simplify": true
+        },
+        "987": {
+            "link": {
+                "name": "building_F",
+                "file": "assets\\City Builder Bits\\Building-T3oyvK6VEU.glb"
+            },
+            "simplifyTarget": 0.1,
+            "simplify": true
+        },
+        "988": {
+            "link": {
+                "name": "building_E",
+                "file": "assets\\City Builder Bits\\Building-qOhhGLftam.glb"
+            },
+            "simplifyTarget": 0.1,
+            "simplify": true
+        },
+        "989": {
+            "link": {
+                "name": "building_A",
+                "file": "assets\\City Builder Bits\\Building.glb"
+            },
+            "simplifyTarget": 0.1,
+            "simplify": true
+        },
+        "990": {
+            "link": {
+                "name": "building_B",
+                "file": "assets\\City Builder Bits\\Building B.glb"
+            },
+            "simplifyTarget": 0.1,
+            "simplify": true
         }
     },
     "textures": {
@@ -3636,6 +4093,36 @@
                 "name": "base_color_texture",
                 "file": "models\\Zombie.glb"
             }
+        },
+        "1011": {
+            "link": {
+                "name": "base_color_texture",
+                "file": "assets\\City Builder Bits\\Building-g15lpKh4li.glb"
+            }
+        },
+        "1012": {
+            "link": {
+                "name": "base_color_texture",
+                "file": "assets\\City Builder Bits\\Building-T3oyvK6VEU.glb"
+            }
+        },
+        "1013": {
+            "link": {
+                "name": "base_color_texture",
+                "file": "assets\\City Builder Bits\\Building-qOhhGLftam.glb"
+            }
+        },
+        "1014": {
+            "link": {
+                "name": "base_color_texture",
+                "file": "assets\\City Builder Bits\\Building.glb"
+            }
+        },
+        "1015": {
+            "link": {
+                "name": "base_color_texture",
+                "file": "assets\\City Builder Bits\\Building B.glb"
+            }
         }
     },
     "images": {
@@ -3813,6 +4300,36 @@
             "link": {
                 "name": "Zombie_Atlas.png",
                 "file": "models\\Zombie.glb"
+            }
+        },
+        "1010": {
+            "link": {
+                "name": "citybits_texture.png",
+                "file": "assets\\City Builder Bits\\Building-g15lpKh4li.glb"
+            }
+        },
+        "1011": {
+            "link": {
+                "name": "citybits_texture.png",
+                "file": "assets\\City Builder Bits\\Building-T3oyvK6VEU.glb"
+            }
+        },
+        "1012": {
+            "link": {
+                "name": "citybits_texture.png",
+                "file": "assets\\City Builder Bits\\Building-qOhhGLftam.glb"
+            }
+        },
+        "1013": {
+            "link": {
+                "name": "citybits_texture.png",
+                "file": "assets\\City Builder Bits\\Building.glb"
+            }
+        },
+        "1014": {
+            "link": {
+                "name": "citybits_texture.png",
+                "file": "assets\\City Builder Bits\\Building B.glb"
             }
         }
     },
@@ -5462,6 +5979,54 @@
                 "name": "Atlas",
                 "file": "models\\Zombie.glb"
             }
+        },
+        "997": {
+            "link": {
+                "name": "lambert17SG",
+                "file": "assets\\Propeller.glb"
+            }
+        },
+        "998": {
+            "link": {
+                "name": "lambert18SG",
+                "file": "assets\\Propeller.glb"
+            }
+        },
+        "999": {
+            "link": {
+                "name": "lambert19SG",
+                "file": "assets\\Propeller.glb"
+            }
+        },
+        "1000": {
+            "link": {
+                "name": "citybits_texture",
+                "file": "assets\\City Builder Bits\\Building-g15lpKh4li.glb"
+            }
+        },
+        "1001": {
+            "link": {
+                "name": "citybits_texture",
+                "file": "assets\\City Builder Bits\\Building-T3oyvK6VEU.glb"
+            }
+        },
+        "1002": {
+            "link": {
+                "name": "citybits_texture",
+                "file": "assets\\City Builder Bits\\Building-qOhhGLftam.glb"
+            }
+        },
+        "1003": {
+            "link": {
+                "name": "citybits_texture",
+                "file": "assets\\City Builder Bits\\Building.glb"
+            }
+        },
+        "1004": {
+            "link": {
+                "name": "citybits_texture",
+                "file": "assets\\City Builder Bits\\Building B.glb"
+            }
         }
     },
     "shaders": {
@@ -6590,6 +7155,36 @@
         },
         "1038": {
             "fileName": "models/Zombie.glb",
+            "importerName": "",
+            "importPhysicalAsPhongMaterials": true
+        },
+        "1039": {
+            "fileName": "assets/Propeller.glb",
+            "importerName": "",
+            "importPhysicalAsPhongMaterials": true
+        },
+        "1040": {
+            "fileName": "assets/City Builder Bits/Building-g15lpKh4li.glb",
+            "importerName": "",
+            "importPhysicalAsPhongMaterials": true
+        },
+        "1041": {
+            "fileName": "assets/City Builder Bits/Building-T3oyvK6VEU.glb",
+            "importerName": "",
+            "importPhysicalAsPhongMaterials": true
+        },
+        "1042": {
+            "fileName": "assets/City Builder Bits/Building-qOhhGLftam.glb",
+            "importerName": "",
+            "importPhysicalAsPhongMaterials": true
+        },
+        "1043": {
+            "fileName": "assets/City Builder Bits/Building.glb",
+            "importerName": "",
+            "importPhysicalAsPhongMaterials": true
+        },
+        "1044": {
+            "fileName": "assets/City Builder Bits/Building B.glb",
             "importerName": "",
             "importPhysicalAsPhongMaterials": true
         }
