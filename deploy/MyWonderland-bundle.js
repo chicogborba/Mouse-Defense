@@ -12638,6 +12638,10 @@ var state = {
   },
   loseGame() {
     console.log("Game Over triggered");
+    const elementgameover = document.getElementById("game-over-backdrop");
+    if (elementgameover) {
+      elementgameover.style.opacity = "1";
+    }
     this.gameOver = true;
     this.isFirstGameOver = true;
     if (this.mouseSound) {
