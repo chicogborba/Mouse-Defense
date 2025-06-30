@@ -125,23 +125,39 @@
       +
     </div>
 
-    <div id="startup-backdrop" style="
+  <!-- Startup Backdrop -->
+  <div id="startup-backdrop" style="
     position: absolute;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0, 0.85);
     pointer-events: all;
     z-index: 10000;
     opacity: 1;
     transition: opacity 0.5s ease;
   ">
+    <!-- Ícone de Zumbi -->
+    <img 
+      src="https://www.svgrepo.com/show/103339/zombie.svg" 
+      alt="Zombie Logo"
+      style="
+        position: absolute;
+        top: 15%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100px;
+        height: 100px;
+        filter: drop-shadow(2px 2px 4px black);
+      "
+    />
+
     <div style="
       position: absolute;
-      top: 30%;
+      top: 35%;
       left: 50%;
-      transform: translate(-50%, -30%);
+      transform: translate(-50%, -35%);
       color: #ffcc00;
       font-size: 72px;
       font-weight: bold;
@@ -152,9 +168,9 @@
     </div>
     <div style="
       position: absolute;
-      top: 45%;
+      top: 50%;
       left: 50%;
-      transform: translate(-50%, -45%);
+      transform: translate(-50%, -50%);
       color: white;
       font-size: 24px;
       text-align: center;
@@ -167,9 +183,9 @@
     </div>
     <button id="start-button" style="
       position: absolute;
-      top: 60%;
+      top: 65%;
       left: 50%;
-      transform: translate(-50%, -60%);
+      transform: translate(-50%, -65%);
       padding: 15px 30px;
       font-size: 24px;
       font-weight: bold;
