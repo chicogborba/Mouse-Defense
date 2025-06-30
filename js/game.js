@@ -48,7 +48,7 @@ export const state = {
         const speedMultiplier = 1 + ((this.currentWave - 1) * this.waveProperties.speedIncreasePercent / 100);
         const speed = this.waveProperties.baseSpeed * speedMultiplier;
         console.log(`Wave ${this.currentWave} speed: ${speed.toFixed(2)} (multiplier: ${speedMultiplier.toFixed(2)})`);
-        return speed;
+        return speed * ((this.zombieCount * 0.001) + 1)
     },
 
     getRemainingZombies() {
@@ -62,7 +62,7 @@ export const state = {
         const remaining = this.getRemainingZombies();
         const nextWaveZombies = this.waveProperties.baseZombies + 
                                (this.currentWave) * this.waveProperties.zombiesIncrease;
-        const speed = this.getWaveSpeed() * (this.zombieCount + 1) * 0.1;
+        const speed = this.getWaveSpeed()
         this.updateScore(
             `Wave ${this.currentWave} - Remaining: ${remaining} zombies - Speed: ${speed.toFixed(1)} - Next Wave: ${nextWaveZombies} zombies`
         );

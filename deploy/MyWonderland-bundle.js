@@ -12598,7 +12598,7 @@ var state = {
     const speedMultiplier = 1 + (this.currentWave - 1) * this.waveProperties.speedIncreasePercent / 100;
     const speed = this.waveProperties.baseSpeed * speedMultiplier;
     console.log(`Wave ${this.currentWave} speed: ${speed.toFixed(2)} (multiplier: ${speedMultiplier.toFixed(2)})`);
-    return speed;
+    return speed * (this.zombieCount * 1e-3 + 1);
   },
   getRemainingZombies() {
     const total = this.getWaveZombieCount();
@@ -12609,7 +12609,7 @@ var state = {
   updateWaveDisplay() {
     const remaining = this.getRemainingZombies();
     const nextWaveZombies = this.waveProperties.baseZombies + this.currentWave * this.waveProperties.zombiesIncrease;
-    const speed = this.getWaveSpeed() * (this.zombieCount + 1) * 0.1;
+    const speed = this.getWaveSpeed();
     this.updateScore(
       `Wave ${this.currentWave} - Remaining: ${remaining} zombies - Speed: ${speed.toFixed(1)} - Next Wave: ${nextWaveZombies} zombies`
     );
@@ -13394,14 +13394,18 @@ __publicField(ScoreTrigger, "Properties", {
 // js/mouse-spawner.js
 var tempQuat24 = new Float32Array(8);
 var MouseSpawner = class extends Component3 {
+  time = 0;
+  spawnInterval = 2;
+  targets = [];
+  // Para controle de waves por lado
+  sides = ["+X", "-X", "+Z", "-Z"];
+  currentSide = null;
+  sideCount = 0;
+  waveNumber = 1;
   static onRegister(engine2) {
     engine2.registerComponent(ScoreTrigger);
     engine2.registerComponent(HowlerAudioSource);
   }
-  time = 0;
-  spawnInterval = 2;
-  targets = [];
-  waveNumber = 1;
   init() {
     state.despawnTarget = function(obj) {
       for (let i = 0; i < this.targets.length; i++) {
@@ -13416,6 +13420,7 @@ var MouseSpawner = class extends Component3 {
   start() {
     state.mouseSpawner = this;
     this.spawnInterval = this.initialSpawnInterval;
+    this.pickNewSide();
     this.spawnTarget();
   }
   update(dt) {
@@ -13428,29 +13433,54 @@ var MouseSpawner = class extends Component3 {
       if (this.spawnInterval > this.minSpawnInterval) {
         this.spawnInterval *= this.spawnIntervalDecreaseRate;
       }
-      if (this.targets.length % 10 === 0) {
-        this.waveNumber++;
-        state.updateScore(`Wave ${this.waveNumber} - Zombies: ${this.targets.length}`);
-      }
     }
   }
   reset() {
-    for (let i = 0; i < this.targets.length; i++) {
-      this.targets[i].destroy();
+    for (let obj of this.targets) {
+      obj.destroy();
     }
     this.targets = [];
-    this.waveNumber = 1;
-    this.spawnInterval = this.initialSpawnInterval;
     this.time = 0;
+    this.spawnInterval = this.initialSpawnInterval;
+    this.waveNumber = 1;
+    this.sideCount = 0;
+    this.pickNewSide();
     this.object.resetPosition();
   }
+  pickNewSide() {
+    const idx = Math.floor(Math.random() * this.sides.length);
+    this.currentSide = this.sides[idx];
+    this.sideCount = 0;
+    state.updateScore(`Wave ${this.waveNumber} \u2013 Lado ${this.currentSide}`);
+  }
   spawnTarget() {
+    if (this.sideCount >= 6) {
+      this.waveNumber++;
+      this.pickNewSide();
+    }
     const obj = this.engine.scene.addObject();
     obj.setTransformLocal(this.object.getTransformWorld(tempQuat24));
-    const angle2 = Math.random() * 2 * Math.PI;
-    const dist2 = Math.random() * 5;
-    const dx = Math.cos(angle2) * dist2;
-    const dz = Math.sin(angle2) * dist2;
+    const minR = this.spawnRadiusMin;
+    const maxR = this.spawnRadiusMax;
+    let dx = 0, dz = 0;
+    switch (this.currentSide) {
+      case "+X":
+        dx = minR + Math.random() * (maxR - minR);
+        dz = (Math.random() * 2 - 1) * maxR;
+        break;
+      case "-X":
+        dx = -(minR + Math.random() * (maxR - minR));
+        dz = (Math.random() * 2 - 1) * maxR;
+        break;
+      case "+Z":
+        dz = minR + Math.random() * (maxR - minR);
+        dx = (Math.random() * 2 - 1) * maxR;
+        break;
+      case "-Z":
+        dz = -(minR + Math.random() * (maxR - minR));
+        dx = (Math.random() * 2 - 1) * maxR;
+        break;
+    }
     obj.translateLocal([dx, 0, dz]);
     obj.scaleLocal([1, 1, 1]);
     const mesh = obj.addComponent("mesh");
@@ -13479,6 +13509,7 @@ var MouseSpawner = class extends Component3 {
     });
     obj.setDirty();
     this.targets.push(obj);
+    this.sideCount++;
   }
 };
 __publicField(MouseSpawner, "TypeName", "mouse-spawner");
@@ -13490,8 +13521,9 @@ __publicField(MouseSpawner, "Properties", {
   initialSpawnInterval: { type: Type.Float, default: 2 },
   minSpawnInterval: { type: Type.Float, default: 0.5 },
   spawnIntervalDecreaseRate: { type: Type.Float, default: 0.95 },
-  bulletMesh: { type: Type.Mesh },
-  bulletMaterial: { type: Type.Material }
+  // Raio mínimo/ máximo para spawn
+  spawnRadiusMin: { type: Type.Float, default: 15 },
+  spawnRadiusMax: { type: Type.Float, default: 30 }
 });
 
 // js/play-again-button.js
