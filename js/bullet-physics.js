@@ -74,13 +74,16 @@ export class BulletPhysics extends Component {
         this.object.setPositionLocal(this.position);
 
         let overlaps = this.collision.queryOverlaps();
+
         for (let i = 0; i < overlaps.length; ++i) {
             let t = overlaps[i].object.getComponent("score-trigger");
-            if (t && !this.scored) {
-                t.onHit();
-                this.scored = true;
-                state.zombiesKilledInWave++;
-                this.destroyBullet(0);
+
+            // this.destroyBullet(0);
+            // se eu movo this.destroyBullet(0); pra aqui funciona e ele desaparece quando bate em algo mas n funciona o hit tipo o tiro n ativa botões nem mata bichos
+
+            if (t) {
+                t.onHit(() => this.destroyBullet(0));                  // Ativar ação do alvo (ponto, morte, etc)
+                this.destroyBullet(0);      // Só então destruir
                 break;
             }
         }

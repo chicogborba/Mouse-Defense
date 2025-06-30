@@ -21,6 +21,8 @@ export const state = {
     firstShot: false,
     launch: null,
     paused: false,
+    isFirstGameOver : false,
+    zombieCount: 0,
 
     // Wave system properties
     currentWave: 1,
@@ -42,6 +44,7 @@ export const state = {
     },
 
     getWaveSpeed() {
+        // 
         const speedMultiplier = 1 + ((this.currentWave - 1) * this.waveProperties.speedIncreasePercent / 100);
         const speed = this.waveProperties.baseSpeed * speedMultiplier;
         console.log(`Wave ${this.currentWave} speed: ${speed.toFixed(2)} (multiplier: ${speedMultiplier.toFixed(2)})`);
@@ -59,7 +62,7 @@ export const state = {
         const remaining = this.getRemainingZombies();
         const nextWaveZombies = this.waveProperties.baseZombies + 
                                (this.currentWave) * this.waveProperties.zombiesIncrease;
-        const speed = this.getWaveSpeed();
+        const speed = this.getWaveSpeed() * (this.zombieCount + 1) * 0.1;
         this.updateScore(
             `Wave ${this.currentWave} - Remaining: ${remaining} zombies - Speed: ${speed.toFixed(1)} - Next Wave: ${nextWaveZombies} zombies`
         );
@@ -98,6 +101,7 @@ export const state = {
     loseGame() {
         console.log("Game Over triggered");
         this.gameOver = true;
+        this.isFirstGameOver = true;
         
         // Stop music first
         if (this.mouseSound) {
@@ -129,6 +133,15 @@ export const state = {
         if (this.mouseSpawner) {
             this.mouseSpawner.reset();
         }
+
+        if (this.isFirstGameOver) { 
+            window.location.reload()
+        }
+
+        // atualiza o zombieCount para 0
+        this.zombieCount = 0;
+
+        // document.getElementById("pontos-test").innerHTML = 0;
 
         this.victoryMusic.stop();
         this.gameOver = false;

@@ -12573,6 +12573,8 @@ var state = {
   firstShot: false,
   launch: null,
   paused: false,
+  isFirstGameOver: false,
+  zombieCount: 0,
   // Wave system properties
   currentWave: 1,
   zombiesKilledInWave: 0,
@@ -12607,7 +12609,7 @@ var state = {
   updateWaveDisplay() {
     const remaining = this.getRemainingZombies();
     const nextWaveZombies = this.waveProperties.baseZombies + this.currentWave * this.waveProperties.zombiesIncrease;
-    const speed = this.getWaveSpeed();
+    const speed = this.getWaveSpeed() * (this.zombieCount + 1) * 0.1;
     this.updateScore(
       `Wave ${this.currentWave} - Remaining: ${remaining} zombies - Speed: ${speed.toFixed(1)} - Next Wave: ${nextWaveZombies} zombies`
     );
@@ -12637,6 +12639,7 @@ var state = {
   loseGame() {
     console.log("Game Over triggered");
     this.gameOver = true;
+    this.isFirstGameOver = true;
     if (this.mouseSound) {
       this.mouseSound.stop();
     }
@@ -12658,6 +12661,10 @@ var state = {
     if (this.mouseSpawner) {
       this.mouseSpawner.reset();
     }
+    if (this.isFirstGameOver) {
+      window.location.reload();
+    }
+    this.zombieCount = 0;
     this.victoryMusic.stop();
     this.gameOver = false;
     this.shotCount = 0;
@@ -12722,10 +12729,8 @@ var BulletPhysics = class extends Component3 {
     let overlaps = this.collision.queryOverlaps();
     for (let i = 0; i < overlaps.length; ++i) {
       let t = overlaps[i].object.getComponent("score-trigger");
-      if (t && !this.scored) {
-        t.onHit();
-        this.scored = true;
-        state.zombiesKilledInWave++;
+      if (t) {
+        t.onHit(() => this.destroyBullet(0));
         this.destroyBullet(0);
         break;
       }
@@ -13356,7 +13361,23 @@ var ScoreTrigger = class extends Component3 {
       volume: 1.9
     });
   }
-  onHit() {
+  onHit(callback) {
+    if (typeof callback === "function") {
+      this.particles.setTransformWorld(
+        this.object.getTransformWorld(tempQuat23)
+      );
+      this.particles.getComponent("confetti-particles").burst();
+      state.zombiesKilledInWave++;
+      state.zombieCount++;
+      const elementPontos = document.getElementById("pontos-test");
+      if (elementPontos) {
+        elementPontos.innerHTML = state.zombieCount;
+      }
+      state.despawnTarget(this.object.parent);
+      callback();
+    } else {
+      console.log("Nenhum callback fornecido.");
+    }
     this.particles.setTransformWorld(this.object.getTransformWorld(tempQuat23));
     this.particles.getComponent("confetti-particles").burst();
     state.despawnTarget(this.object.parent);
@@ -13586,29 +13607,6 @@ var ShotCounter = class extends Component3 {
 };
 __publicField(ShotCounter, "TypeName", "shot-counter");
 __publicField(ShotCounter, "Properties", {});
-
-// js/spawn-mover.js
-var SpawnMover = class extends Component3 {
-  init() {
-    this.time = 0;
-    this.currentPos = [0, 0, 0];
-    this.pointA = [0, 0, 0];
-    this.pointB = [0, 0, 0];
-    this.moveDuration = 1;
-    this.speed = 0.2;
-    this.travelDistance = this.moveDuration * this.speed;
-    quat2_exports.getTranslation(this.currentPos, this.object.transformLocal);
-    vec3_exports.add(this.pointA, this.pointA, this.currentPos);
-    vec3_exports.add(this.pointB, this.currentPos, [0, 0, 1.5]);
-  }
-  update(dt) {
-  }
-};
-__publicField(SpawnMover, "TypeName", "spawn-mover");
-__publicField(SpawnMover, "Properties", {
-  speed: { type: Type.Float, default: 1 }
-  // targetObject: {type: Type.Object},
-});
 
 // js/teleport-custom.js
 var TeleportCustom = class extends Component3 {
@@ -13944,7 +13942,6 @@ engine.registerComponent(PlayAgainButton);
 engine.registerComponent(PlayerLocation);
 engine.registerComponent(ScoreDisplay);
 engine.registerComponent(ShotCounter);
-engine.registerComponent(SpawnMover);
 engine.registerComponent(TeleportCustom);
 engine.registerComponent(WasdControlsCustom);
 engine.scene.load(`${Constants.ProjectName}.bin`);

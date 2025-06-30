@@ -25,35 +25,54 @@ objects, see `mouse-spawner`.
 const tempQuat2 = new Float32Array(8);
 
 export class ScoreTrigger extends Component {
-    static TypeName = "score-trigger";
-    static Properties = {
-        particles: { type: Type.Object },
-    };
+  static TypeName = "score-trigger";
+  static Properties = {
+    particles: { type: Type.Object },
+  };
 
-    init() {
-        this.collision = this.object.getComponent('collision');
-        this.soundHit = this.object.addComponent("howler-audio-source", {
-            src: "sfx/high-pitched-aha-103125.mp3",
-            volume: 1.9,
-        });
-        this.soundPop = this.object.addComponent("howler-audio-source", {
-            src: "sfx/pop-94319.mp3",
-            volume: 1.9,
-        });
-        state.victoryMusic = this.object.addComponent("howler-audio-source", {
-            src: "music/level-win-6416.mp3",
-            volume: 1.9,
-        });
-    }
+  init() {
+    this.collision = this.object.getComponent("collision");
+    this.soundHit = this.object.addComponent("howler-audio-source", {
+      src: "sfx/high-pitched-aha-103125.mp3",
+      volume: 1.9,
+    });
+    this.soundPop = this.object.addComponent("howler-audio-source", {
+      src: "sfx/pop-94319.mp3",
+      volume: 1.9,
+    });
+    state.victoryMusic = this.object.addComponent("howler-audio-source", {
+      src: "music/level-win-6416.mp3",
+      volume: 1.9,
+    });
+  }
 
-    onHit() {
-        this.particles.setTransformWorld(this.object.getTransformWorld(tempQuat2));
+  onHit(callback) {
+    if (typeof callback === "function") {
+        this.particles.setTransformWorld(
+          this.object.getTransformWorld(tempQuat2)
+        );
         this.particles.getComponent("confetti-particles").burst();
+        state.zombiesKilledInWave++;
+        state.zombieCount++;
+        // document.getElementById("pontos-test").innerHTML = state.zombieCount;
+        const elementPontos = document.getElementById("pontos-test")
+        if(elementPontos) {
+            elementPontos.innerHTML = state.zombieCount
+        }
 
-        state.despawnTarget(this.object.parent);
-        state.incrementScore();
+      state.despawnTarget(this.object.parent);
 
-        this.soundHit.play();
-        this.soundPop.play();
+      callback(); // chama o callback com argumento
+    } else {
+      console.log("Nenhum callback fornecido.");
     }
-};
+    this.particles.setTransformWorld(this.object.getTransformWorld(tempQuat2));
+    this.particles.getComponent("confetti-particles").burst();
+
+    state.despawnTarget(this.object.parent);
+    state.incrementScore();
+
+    this.soundHit.play();
+    this.soundPop.play();
+  }
+}

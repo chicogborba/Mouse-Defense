@@ -1689,7 +1689,7 @@
             "name": "Scoreboard",
             "translation": [
                 0.0,
-                0.0123977,
+                1.2647973,
                 0.0
             ],
             "rotation": [
@@ -2453,90 +2453,6 @@
             ],
             "parent": "1003"
         },
-        "1011": {
-            "name": "Scoreboard",
-            "parent": "129",
-            "translation": [
-                0.0,
-                -1.75,
-                -3.9999997
-            ],
-            "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-            ],
-            "scaling": [
-                1.0,
-                1.0,
-                1.0
-            ]
-        },
-        "772": {
-            "name": "ScoreText",
-            "parent": "1011",
-            "components": [
-                {
-                    "type": "text",
-                    "text": {
-                        "text": "Eliminate all 20 rats.",
-                        "effect": "outline"
-                    }
-                },
-                {
-                    "type": "score-display"
-                }
-            ],
-            "translation": [
-                0.0,
-                2.3104021,
-                0.0
-            ],
-            "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-            ],
-            "scaling": [
-                1.5,
-                1.5,
-                1.5
-            ]
-        },
-        "730": {
-            "name": "Shots",
-            "parent": "1011",
-            "components": [
-                {
-                    "type": "text",
-                    "text": {
-                        "text": "Shots Fired: 0",
-                        "effect": "outline"
-                    }
-                },
-                {
-                    "type": "shot-counter"
-                }
-            ],
-            "translation": [
-                0.0,
-                1.9985342,
-                0.0
-            ],
-            "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-            ],
-            "scaling": [
-                1.5,
-                1.5,
-                1.5
-            ]
-        },
         "1031": {
             "link": {
                 "name": "Mouse",
@@ -2613,19 +2529,19 @@
             "name": "MouseSpawner",
             "scaling": [
                 0.2,
-                0.1999776,
-                0.1999787
+                0.1999775,
+                0.1999786
             ],
             "rotation": [
-                0.7070955,
+                0.7070954,
                 0.0,
                 0.0,
-                0.7071179
+                0.707118
             ],
             "translation": [
                 2.1427974,
-                0.0,
-                14.1278486
+                -4.76837158203125e-7,
+                14.1688098
             ]
         }
     },

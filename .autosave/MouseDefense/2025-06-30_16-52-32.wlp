@@ -1670,19 +1670,19 @@
             "name": "MouseSpawner",
             "scaling": [
                 0.2,
-                0.1999813,
-                0.1999823
+                0.1999808,
+                0.1999818
             ],
             "rotation": [
-                0.707102,
+                0.7071011,
                 0.0,
                 0.0,
-                0.7071114
+                0.7071123
             ],
             "translation": [
-                -22.3248748,
-                -9.5367431640625e-7,
-                8.5837488
+                -25.8049697,
+                4.76837158203125e-7,
+                8.5837411
             ]
         },
         "970": {
@@ -2460,7 +2460,7 @@
             },
             "components": [
                 {
-                    "active": false,
+                    "active": true,
                     "mesh": {
                         "material": "996",
                         "mesh": "982"
@@ -2482,8 +2482,8 @@
             "name": "MouseSpawner",
             "scaling": [
                 0.2,
-                0.1999787,
-                0.1999798
+                0.1999785,
+                0.1999796
             ],
             "rotation": [
                 0.7070986,
@@ -2492,56 +2492,9 @@
                 0.7071149
             ],
             "translation": [
-                19.7182445,
+                23.9312839,
                 9.5367431640625e-7,
                 9.2442646
-            ]
-        },
-        "1032": {
-            "link": {
-                "name": "Mouse",
-                "file": "assets\\uploads_files_3861195_Mouse_GLB.glb"
-            },
-            "components": [
-                {
-                    "active": false,
-                    "mesh": {
-                        "material": "996",
-                        "mesh": "982"
-                    }
-                },
-                {
-                    "type": "mouse-spawner",
-                    "mouse-spawner": {
-                        "targetMesh": "982",
-                        "targetMaterial": "996",
-                        "spawnAnimation": "439",
-                        "particles": "482",
-                        "maxTargets": 20,
-                        "bulletMesh": "9",
-                        "bulletMaterial": "22"
-                    }
-                },
-                {
-                    "type": "spawn-mover"
-                }
-            ],
-            "name": "MouseSpawner",
-            "scaling": [
-                0.2,
-                0.1999776,
-                0.1999787
-            ],
-            "rotation": [
-                0.7070955,
-                0.0,
-                0.0,
-                0.7071179
-            ],
-            "translation": [
-                2.1427974,
-                0.0,
-                14.1278486
             ]
         }
     },
