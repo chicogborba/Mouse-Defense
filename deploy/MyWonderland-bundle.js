@@ -13783,6 +13783,9 @@ var WasdControlsCustom = class extends Component3 {
     this.right = false;
     this.down = false;
     this.left = false;
+    this.verticalVelocity = 0;
+    this.isJumping = false;
+    this.jumpsRemaining = this.maxJumps + 1;
     this.centerPos = vec3_exports.create();
     if (this.headObject) {
       this.headObject.getPositionLocal(this.centerPos);
@@ -13790,100 +13793,86 @@ var WasdControlsCustom = class extends Component3 {
     window.addEventListener("keydown", this.press.bind(this));
     window.addEventListener("keyup", this.release.bind(this));
   }
-  update() {
+  update(dt) {
     if (!this.headObject)
       return;
+    const direction2 = vec3_exports.create();
     if (this.up || this.right || this.down || this.left) {
-      const direction2 = vec3_exports.create();
       const forward = vec3_exports.fromValues(0, 0, 0);
       this.object.getForward(forward);
       forward[1] = 0;
-      const back = vec3_exports.create();
-      if (vec3_exports.equals(forward, [0, 0, 1])) {
-        vec3_exports.set(forward, 0, 0, this.speed);
-        vec3_exports.set(back, 0, 0, -this.speed);
-      } else if (vec3_exports.equals(forward, [0, 0, -1])) {
-        vec3_exports.set(forward, 0, 0, -this.speed);
-        vec3_exports.set(back, 0, 0, this.speed);
-      } else {
-        const angleF = vec3_exports.angle([0, 0, -1], forward);
-        const xPolF = forward[0] > 0 ? 1 : -1;
-        const zPolF = forward[2] > 0 ? 1 : -1;
-        forward[0] = xPolF * Math.abs(Math.sin(angleF)) * this.speed;
-        forward[2] = zPolF * Math.abs(Math.cos(angleF)) * this.speed;
-        back[0] = -forward[0];
-        back[2] = -forward[2];
-      }
+      vec3_exports.normalize(forward, forward);
+      vec3_exports.scale(forward, forward, this.speed);
       const rightV = vec3_exports.fromValues(0, 0, 0);
       this.object.getRight(rightV);
       rightV[1] = 0;
-      const leftV = vec3_exports.create();
-      if (vec3_exports.equals(rightV, [1, 0, 0])) {
-        vec3_exports.set(rightV, this.speed, 0, 0);
-        vec3_exports.set(leftV, -this.speed, 0, 0);
-      } else if (vec3_exports.equals(rightV, [-1, 0, 0])) {
-        vec3_exports.set(rightV, -this.speed, 0, 0);
-        vec3_exports.set(leftV, this.speed, 0, 0);
-      } else {
-        const angleR = vec3_exports.angle([-1, 0, 0], rightV);
-        const xPolR = rightV[0] > 0 ? 1 : -1;
-        const zPolR = rightV[2] > 0 ? 1 : -1;
-        rightV[0] = xPolR * Math.abs(Math.cos(angleR)) * this.speed;
-        rightV[2] = zPolR * Math.abs(Math.sin(angleR)) * this.speed;
-        leftV[0] = -rightV[0];
-        leftV[2] = -rightV[2];
-      }
+      vec3_exports.normalize(rightV, rightV);
+      vec3_exports.scale(rightV, rightV, this.speed);
       if (this.up)
         vec3_exports.add(direction2, direction2, forward);
       if (this.down)
-        vec3_exports.add(direction2, direction2, back);
-      if (this.left)
-        vec3_exports.add(direction2, direction2, leftV);
+        vec3_exports.sub(direction2, direction2, forward);
       if (this.right)
         vec3_exports.add(direction2, direction2, rightV);
-      const newPos = vec3_exports.create();
-      this.headObject.getPositionLocal(newPos);
-      vec3_exports.add(newPos, newPos, direction2);
-      const minX = this.centerPos[0] - this.boundaryLimit;
-      const maxX = this.centerPos[0] + this.boundaryLimit;
-      const minZ = this.centerPos[2] - this.boundaryLimit;
-      const maxZ = this.centerPos[2] + this.boundaryLimit;
-      newPos[0] = Math.min(Math.max(newPos[0], minX), maxX);
-      newPos[2] = Math.min(Math.max(newPos[2], minZ), maxZ);
-      this.headObject.setPositionLocal(newPos);
+      if (this.left)
+        vec3_exports.sub(direction2, direction2, rightV);
     }
+    const newPos = vec3_exports.create();
+    this.headObject.getPositionLocal(newPos);
+    vec3_exports.add(newPos, newPos, direction2);
+    this.verticalVelocity -= this.gravity * dt;
+    newPos[1] += this.verticalVelocity * dt;
+    if (newPos[1] <= this.groundLevel) {
+      newPos[1] = this.groundLevel;
+      this.verticalVelocity = 0;
+      this.jumpsRemaining = this.maxJumps + 1;
+      this.isJumping = false;
+    } else {
+      this.isJumping = true;
+    }
+    const minX = this.centerPos[0] - this.boundaryLimit;
+    const maxX = this.centerPos[0] + this.boundaryLimit;
+    const minZ = this.centerPos[2] - this.boundaryLimit;
+    const maxZ = this.centerPos[2] + this.boundaryLimit;
+    newPos[0] = Math.min(Math.max(newPos[0], minX), maxX);
+    newPos[2] = Math.min(Math.max(newPos[2], minZ), maxZ);
+    this.headObject.setPositionLocal(newPos);
   }
   press(e) {
-    if (e.keyCode === 38 || e.keyCode === 87 || e.keyCode === 90) {
+    if (e.keyCode === 38 || e.keyCode === 87 || e.keyCode === 90)
       this.up = true;
-    } else if (e.keyCode === 39 || e.keyCode === 68) {
+    else if (e.keyCode === 39 || e.keyCode === 68)
       this.right = true;
-    } else if (e.keyCode === 40 || e.keyCode === 83) {
+    else if (e.keyCode === 40 || e.keyCode === 83)
       this.down = true;
-    } else if (e.keyCode === 37 || e.keyCode === 65 || e.keyCode === 81) {
+    else if (e.keyCode === 37 || e.keyCode === 65 || e.keyCode === 81)
       this.left = true;
+    else if (e.keyCode === 32 && this.jumpsRemaining > 0) {
+      this.verticalVelocity = this.jumpForce;
+      this.jumpsRemaining--;
     }
   }
   release(e) {
-    if (e.keyCode === 38 || e.keyCode === 87 || e.keyCode === 90) {
+    if (e.keyCode === 38 || e.keyCode === 87 || e.keyCode === 90)
       this.up = false;
-    } else if (e.keyCode === 39 || e.keyCode === 68) {
+    else if (e.keyCode === 39 || e.keyCode === 68)
       this.right = false;
-    } else if (e.keyCode === 40 || e.keyCode === 83) {
+    else if (e.keyCode === 40 || e.keyCode === 83)
       this.down = false;
-    } else if (e.keyCode === 37 || e.keyCode === 65 || e.keyCode === 81) {
+    else if (e.keyCode === 37 || e.keyCode === 65 || e.keyCode === 81)
       this.left = false;
-    }
   }
 };
 __publicField(WasdControlsCustom, "TypeName", "wasd-controls-custom");
 __publicField(WasdControlsCustom, "Properties", {
-  /** Movement speed in m/s. */
   speed: { type: Type.Float, default: 0.1 },
-  /** Object of which the orientation is used to determine forward direction */
   headObject: { type: Type.Object },
-  /** Maximum distance from center on X and Z axes */
-  boundaryLimit: { type: Type.Float, default: 12 }
+  boundaryLimit: { type: Type.Float, default: 12 },
+  gravity: { type: Type.Float, default: 9.8 },
+  jumpForce: { type: Type.Float, default: 8 },
+  groundLevel: { type: Type.Float, default: 0 },
+  maxJumps: { type: Type.Int, default: 2 }
+  // número de pulos extras permitidos no ar
 });
 
 // js/index.js
